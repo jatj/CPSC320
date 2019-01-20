@@ -33,6 +33,8 @@
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{braket}
+\definecolor{ans}{rgb}{0,.5,0}%{0.545,0.27,0.074}
+\def\ans#1{{\color{ans}#1}}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 \setlength{\columnseprule}{1pt}
@@ -74,67 +76,19 @@
 \begin{document}
 
 \maketitle
-Please submit this assignment via \href{https://gradescope.com/}{GradeScope} at
-\url{https://gradescope.com}, 
-by \textbf{Monday January 21 at 10pm}. Assignments,
-submitted within 24 hours after the deadline will be accepted, but a penalty
-of 15\% will be applied.
-
-Be sure to identify everyone in your group if
-you're making a group submission. Reminder: groups can include a
-maximum of three students; we strongly encourage groups of two.
-Your group must make a \textbf{single} submission via one group member's account,
-marking all other group members in that submission \textbf{using GradeScope's
-interface}. Your group's submission \textbf{must}:
-\begin{itemize}
-\item Consist of a single, clearly legible file uploadable to GradeScope
-with clearly indicated solutions to the problems. (PDFs produced via
-\LaTeX{}, Word, Google Docs, or other editing software work
-well. Scanned documents will likely work well. \textbf{High-quality}
-photographs are OK if we agree they're legible.)
-\item Include prominent numbering that corresponds to the numbering used
-in this assignment handout. Put
-these \textbf{in order} starting each problem on a new page, ideally. If
-not, \textbf{very clearly} and prominently indicate which problem is
-answered where.
-\item Include at the start of the document the \textbf{ugrad.cs.ubc.ca e-mail
-addresses} of each member of your team. (Please do \textbf{NOT} include
-your name on the assignment, however. If you don't mind private
-information being stored outside Canada and want an extra
-double-check on your identity, include your student number rather
-than your name.)
-\item Include at the start of the document the statement: "All group
+\title{Members:}
+\begin{enumerate}
+    \item Email: \textbf{c0t2b@ugrad.cs.ubc.ca}, Student number: \textbf{79507828}
+\end{enumerate}
+"All group
 members have read and followed the guidelines for groupwork
 on assignments in CPSC320. 
 As part of those rules, when collaborating with anyone
 outside my group, (1) I and my collaborators took no record but
 names (and GradeScope information) away, and (2) after a suitable
 break, my group created the assignment I am submitting without help
-from anyone other than the course staff." (Go read those
-guidelines! They are posted on the
-course website, along with the links to the assignments.)
+from anyone other than the course staff."
 
-\item Include at the start of the document your outside-group
-collaborators' ugrad.cs.ubc.ca IDs, but \textbf{not} their names. (Be sure
-to get those IDs when you collaborate!)
-\end{itemize}
-
-Before  we  begin, a  few  notes  on  pseudocode  throughout CPSC  320:  Your
-pseudocode must  communicate your
-algorithm  clearly,  concisely,  correctly, and  without  irrelevant  detail.
-Reasonable  use of  plain  English is  fine in  such  pseudocode. You  should
-envision your  audience as  a capable  CPSC 320  student unfamiliar  with the
-problem you are solving. If you choose  to use actual code, note that you may
-\textbf{neither} include what we consider to  be irrelevant detail \textbf{nor} assume that
-we understand  the particular language  you chose.  (So, for example,  do not
-write  \texttt{\#include <iostream>}  at  the  start of  your  pseudocode, and  avoid
-idiosyncratic    features   of    your   language    like   Java's    ternary
-(question-mark-colon) operator.)
-
-Remember also to \textbf{justify your answers}. Justifications/explanations need not
-be long or formal, but should be clear and specific.
-
-\clearpage
 \section{SMP and Gale-Shapley}
 \label{sec-1}
 
@@ -142,7 +96,25 @@ be long or formal, but should be clear and specific.
 \item Let $\#E_k$ be the number of employers matched at the end of the
 $k\mbox{th}$ iteration of the While loop on some execution of the
 G-S algorithm. If there are at least $k+1$ iterations of the
-While loop, must it be the case that $\#E_k < \#E_{k+1}$?
+While loop, must it be the case that $\#E_k < \#E_{k+1}$? \\
+
+\ans{
+  No, at the iteration $k+1$ the number of employers matched may be increased by $1$, 
+  but it can also remains the same $\#E_k$. \\ \\
+  Suppose the employer from the $k+1$ iteration $e_{k+1}$
+  prefers some applicant $a$ that has already been matched with some employer $e$, 
+  there are two possible cases:
+  \begin{enumerate}
+    \item \textbf{Case 1:} $a$ prefers $e_{k+1}$ over $e$, then the applicant $a$ will be 
+    matched with $e_{k+1}$ and employer $e$ will now be unmatched, so the number of employers 
+    matched at the end of $k+1$ iteration will be the same as the previous $k\mbox{th}$ iteration,
+    because there were a new match but one unmatch on the iteration $k+1$.
+    \item \textbf{Case 1:} $a$ does not prefers $e_{k+1}$ over $e$, then the applicant $a$ will still
+    be matched with $e$, and $e_{k+1}$ will remain unmatched, so the number of employers 
+    matched at the end of $k+1$ iteration will be the same as the previous $k\mbox{th}$ iteration, 
+    because there were no new matches on the iteration $k+1$.
+  \end{enumerate}
+}
 
 \item Let Set-$A_k$ be the set of applicants matched at
 the end of the $k\mbox{th}$ iteration of the While loop on some
@@ -151,9 +123,28 @@ algorithm. If there are at least $k+1$ iterations of the
 While loop, must it be the case that 
 Set-$A_k \subseteq$ Set-$A_{k+1}$?
 
+\ans{
+  Yes, Set-$A_k$ may be a subset of Set-$A_{k+1}$ if not the same set as Set-$A_{k+1}$. \\ \\
+  On each iteration we have only two possible cases:
+  \begin{enumerate}
+    \item \textbf{Case 1:} the applicant $a$ that will be matched on the $k\mbox{th}$ iteration was 
+    not considered before by another employer, he will be added to the Set-$A_k$. So Set-$A_k$
+    will be a subset of Set-$A_{k+1}$
+    \item \textbf{Case 2:} the applicant $a$ was previously matched with another employer, so according 
+    to his preferences he is either gonna be matched with employer $e$ or remain with is matched pair,
+    so the Set-$A_{k+1}$ will be exactyl the same as Set-$A_k$.
+  \end{enumerate}
+}
+
 \item Consider a variant of SMP in which each of $n$ employers has exactly
 \textbf{two} positions, and the number of applicants is $2n$.  As a function
 of $n$, how many valid solutions are there?
+
+\ans{
+  It would be $2n$ spaces available for $n$ applicants, so the number of valid solutions
+  will be $2n*n$ that can be translated to $2n^2$.
+}
+
 \end{enumerate}
 
 \section{Progressing Towards Goodness in Gale-Shapley}
@@ -169,7 +160,33 @@ worksheet.
 While loop of Algorithm G-S, every employer $e$ has only considered
 applicants that it ranks at least as high as best($e$).  Moreover, if
 $e$ has considered best($e$) on or before iteration $k$, then $e$ is
-matched with best($e$) at the end of iteration $k$.
+matched with best($e$) at the end of iteration $k$. \\
+
+\ans{
+  Suppose at iteration $k$, employer $e$ considers applicant $a$
+  \begin{enumerate}
+    \item \textbf{Base case:} If $k=1$, at the end of this iteration $M$ has only 1 pair $(e,a)$.
+    The Algorithm G-S matches the current employer $e$ with his first preference. 
+    So $e$ has only considered $a$, wich ranks at least as high as best($e$), because best($e$) is
+    equal to $a$. 
+    \item \textbf{Case 1:} $a$ is unmatched: At the end of the iteration $e$ will be paired with 
+    $a$. Applicant $a$ is the best($e$) because it has not been match by a previous employer and there
+    are no applicants in $e$ preference list that rank higher than $a$ and are a stable matching with $e$.
+    Also previous applicants that $e$ has considered will rank at least as high as $a$ on $e$'s 
+    preference list.
+    \item \textbf{Case 2:} $a$ is matched with $e'$ but prefers $e$ over $e'$: At the end of the 
+    iteration $e$ will be paired with $a$. The applicant $a$ is best($e$) because the pair ($a$, $e$)
+    is a stable matching and there is not another applicant, with a stable matching pair, whom 
+    $e$ ranks higher than $a$. 
+    \item \textbf{Case 3:} $a$ is matched with $e'$ and do not prefer $e$ over $e'$: At the end 
+    of the iteration $e$ will be unpaired. The applicant $a$ is not best($e$) because the pair ($a$, $e$)
+    is not a stable matching. So $e$ do not considered best(e), therefore it won't be matched with
+    any applicant on the $k\mbox{th}$ iteration.
+  \end{enumerate} 
+  The iteration must match with one of the 4 cases above, and all preserve the claim, that 
+  every employer has only considered applicants that rank at least as high as best($e$), and if
+  $e$ considered best($e$) on the iteration $k$ it will end the iteration by being match with best($e$).
+}
 
 \section{SMP with Identical Preference Lists}
 \label{sec-3}
@@ -184,11 +201,38 @@ Let $S$ be the (infinite) set of instances $\{I_n, n>0\}$.
 
 \begin{enumerate}
 \item Write down the instance $I_2$. (No justification needed.)
+\ans{
+  \[
+  e_1: a_1, a_2  \mbox{\hspace{1in}}
+  a_1: e_1, e_2 
+  \]
+  \[
+  e_2: a_1, a_2  \mbox{\hspace{1in}}
+  a_2: e_1, e_2
+  \]
+}
 
 \item Show a good solution for the instance $I_2$. (No justification needed.)
+\ans{
+  \[
+    e_1 --- a_1
+  \]
+  \[
+    e_2 --- a_2
+  \]
+}
 
 \item Prove that for any $n>0$, in the instance $I_n$ we have best($e_i$) $= a_i$,
-for $1 \le i \le n$.
+for $1 \le i \le n$. \\
+\ans{
+  All employers in $I_n$ instances will have their preference list sorted as the order of the 
+  applicants, and this also applies to the preference of the applicants. Given that order of the elements
+  in the preference lists, the best($e_i$) is always the applicant $a_i$.
+  Applicant $a_{i-1}$ would be ranked higher than $a_i$ in $e_i$'s preference list, but it would not
+  be an stable matching between $e_i$ and $a_{i-1}$, because the applicant will already be matched with
+  employer $e_{i-1}$ which is ranked higher than $e_i$ on $a_{i-1}$'s preference list. Therefore the 
+  best($e_i$) would be always $a_i$, for $1 <= i <= n$
+}
 \end{enumerate}
 
 \section{Faster or Slower}
@@ -229,21 +273,48 @@ than $A$ on all inputs of size greater than $n_2$.
 
 \item For some choice of $g$ such that $g(n) \in \Theta(f(n))$:
 \begin{enumerate}
-\item $A$ is faster than $B$ on all sufficiently large inputs.
-
-\item $A$ is slower than $B$ on all sufficiently large inputs.
-
-\item $A$ is faster than $B$ on some inputs, and slower than $B$ on other inputs.
+\item $A$ is faster than $B$ on all sufficiently large inputs. \\
+\ans{
+  \textbf{True}, choosing $g(n) = 2f(n)$ satisfies the condition of $g(n) \in \Theta(f(n))$.
+  For this choice $f(n) < g(n)$ is true because if we replace this $g(n)$ with $2f(n)$, we 
+  get $f(n) < 2f(n)$ this is reduced to $1 < 2$. So $A$ will be faster than $B$.
+}
+\item $A$ is slower than $B$ on all sufficiently large inputs. \\
+\ans{
+  \textbf{True}, choosing $g(n) = \frac{1}{2}f(n)$ satisfies the condition of $g(n) \in \Theta(f(n))$.
+  For this choice $f(n) > g(n)$ is true because if we replace this $g(n)$ with $\frac{1}{2}f(n)$, we 
+  get $f(n) < \frac{1}{2}f(n)$ this is reduced to $1 > \frac{1}{2}$. So $A$ will be slower than $B$.
+}
+\item $A$ is faster than $B$ on some inputs, and slower than $B$ on other inputs.\\
+\ans{
+  \textbf{True}, let $n_1 < n_2$ be such that $f(n_1) > 1$ and $f(n_2) > 1$. Choosing 
+  $g(n) = 2f(n)$ for $n <= n_2$ and $g(n) = \frac{1}{2}f(n)$ for $n > n_2$.
+  This satisfies the condition of $g(n) \in \Theta(f(n))$. Then $f(n) < g(n)$ for $n_1$ and $n_2$, 
+  and $f(n) > g(n)$ for all $n > n_2$. So $A$ will be faster than $B$ on some inputs $n_1$ and $n_2$, 
+  and $B$ will be faster on the other inputs that are greater than $n_2$
+}
 \end{enumerate}
 
 \item For some choice of $g$ such that $g(n) \in o(f(n))$:
 
 \begin{enumerate}
-\item $A$ is faster than $B$ on all sufficiently large inputs.
-
-\item $A$ is slower than $B$ on all sufficiently large inputs.
-
-\item $A$ is faster than $B$ on some inputs, and slower than $B$ on other inputs.
+\item $A$ is faster than $B$ on all sufficiently large inputs.\\
+\ans{
+  \textbf{False}, for all choices of $g$ in $g(n)$ we have that $f(n) > g(n)$ for sufficiently
+  large inputs. So $A$ will be slower than $B$ on all sufficiently large inputs.
+}
+\item $A$ is slower than $B$ on all sufficiently large inputs.\\
+\ans{
+  \textbf{True}, choosing $g(n) = \frac{1}{2}f(n)$ satisfies the condition $g(n) \in o(f(n))$. Then 
+  we have that $f(n) > g(n)$, replacing $g(n)$ we have $f(n) > \frac{1}{2}f(n)$ which will be reduced 
+  to $1 > \frac{1}{2}$ which is true. Therefore $A$ will be slower than $B$.
+}
+\item $A$ is faster than $B$ on some inputs, and slower than $B$ on other inputs.\\
+\ans{
+  \textbf{False}, for all choices of $g$ in $g(n)$ we have that $f(n) > g(n)$ for sufficiently
+  large inputs. Therefore $A$ will never be slower than $B$ because $g(n)$ must satisfy this 
+  condition $g(n) \in o(f(n))$
+}
 \end{enumerate}
 \end{enumerate}
 
@@ -295,14 +366,46 @@ choice of $k$ in the range $[1..n]$ (where $k$ may be expressed as
 a function of $n$), the algorithm runs in $\Omega(f(n,k))$ time.
 
 $\fillinMC{}$ $\Theta(k^3)$ \hspace{.6in} 
-$\fillinMC{}$ $\Theta((n-k)^2 k)$   \hspace{.6in} 
-$\fillinMC{}$ $\Theta(n^2 k)$   \hspace{.6in} 
+$\fillinMCsoln{}$ $\Theta((n-k)^2 k)$   \hspace{.6in} 
+$\fillinMCsoln{}$ $\Theta(n^2 k)$   \hspace{.6in} 
 $\fillinMC{}$ $\Theta(n^3)$
 
+\clearpage
 \item Modify the algorithm of part 1, to improve the runtime by a factor of $k$.
+\begin{tabbing}
+  xxx\=xxx\=xxx\=xxxxxxx\= \kill \color{ans}
+  {\bf Algorithm} {\em Compute-Scores2} ($T[1..n],T'[1..n],k$)\\ [0pt \color{ans}]
+  \> // Initialize scores with the substring score of the first column and row \\
+  \> For $i$ from 1 to $n-k+1$ \\
+  \>\> Let scoreRow $= 0$ \\
+  \>\> Let scoreCol $= 0$ \\
+  \>\> For $l$ from 0 to $k-1$ \\
+  \>\>\> scoreRow += Match$(i+l,l)$ \\
+  \>\>\> scoreCol += Match$(l,i+l)$ \\
+  \>\> $\Score[i][1] = $ scoreRow \\
+  \>\> $\Score[1][i] = $ scoreCol \\ \\
+  \> // Compute the other scores using first row and column scores \\
+  \> For $i$ from 2 to $n-k+1$ \\
+  \>\> For $j$ from 2 to $n-k+1$ \\
+  \>\>\> $\Score[i][j] = \Score[i-1][j-1] - \Match(i-1,j-1) + \Match(i+k-1,j+k-1)$ \\
+
+\end{tabbing}
 
 \item What is the worst-case running time of your algorithm of part 2?
-Try to find as simple an expression as possible.
+Try to find as simple an expression as possible. \\
+\ans{
+  \[ O(n(n-k)) \]
+  The first section from the algorithm has a runtime of $(n-k)k$, and the second has a runtime 
+  of $(n-k)(n-k)$, so the full runtime is $(n-k)(n-k) + (n-k)k$. This can be reduced by:\\
+  \[
+    (n-k)(n-k) + (n-k)k \]
+  \[
+    n^2 - 2nk + k^2 + nk - k^2
+  \]
+  \[
+    n^2 + nk = n(n + k)
+  \]
+}
 \end{enumerate}
 % Emacs 25.2.1 (Org mode 8.2.10)
 \end{document}
