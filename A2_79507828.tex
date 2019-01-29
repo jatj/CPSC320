@@ -370,7 +370,7 @@ $n/2$. Show that $G$ must contain a vulnerability. \\
 \item Give an algorithm that, given as input $G$ and a node $s$ such that
 there is some node $t$ for which the distance between $s$ and $t$
 is guaranteed to be greater than $n/2$, finds a vulnerability. Your
-algorithm should have running time $O(m + n)$.
+algorithm should have running time $O(m + n)$. 
 \begin{tabbing}
   xxx\=xxx\=xxx\=xxxxxxx\= \kill \color{ans}
   {\bf Algorithm} {\em Find-Vulnerability} ($V,E,s, depth=0$)\\ [0pt \color{ans}]
@@ -383,6 +383,11 @@ algorithm should have running time $O(m + n)$.
   \>\>\> return Find-Vulnerability($V,E,v,depth+1$) \\
   \> return null
 \end{tabbing}
+\ans{
+  The algorithm above has a running time $O(m+n)$ because it simply does a BFS from the node 
+  $s$, keeping track of the depth and when the depth reaches a level greater than $n/2$ 
+  then the node that creates that path in that depth, must be a vulnerability. 
+}
 \end{enumerate}
 % Emacs 25.2.1 (Org mode 8.2.10)
 \end{document}
