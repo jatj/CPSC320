@@ -123,8 +123,11 @@ $\begin{array}{lcl}
 \fillinMCmath{O(n\log n)} & \qquad & \fillinMCmath{O(n^2m)}\\
 \fillinMCmath{O(n^2)} & \qquad & \fillinMCmath{O(nm^2)}\\
 \fillinMCmath{O(n+m)} & \qquad & \fillinMC{None of these}
-\end{array}$
-
+\end{array}$\\
+\ans{
+  Simply go through all the adjacency list of $i$ and see if there is the node $j$, this will 
+  take at worst $O(n)$ time because the size of the adjacency list can be at most $n-1$.
+}
 \item Determine if $G$ is a star. An undirected graph is a \emph{star} if
 for some node $i$ (called the star
 centre), $E = \{(i,j) \;|\; i \neq j, 1\le j \le n\}$.  For example,
@@ -133,22 +136,34 @@ with centre 2. (Recall that for undirected graphs, the order of
 pair of nodes in an edge does not matter.)
 
 $\begin{array}{lcl}
-\fillinMCmath{O(n)} & \qquad & \fillinMCmath{O(nm)} \\
+\fillinMCmathsoln{O(n)} & \qquad & \fillinMCmath{O(nm)} \\
 \fillinMCmath{O(n\log n)} & \qquad & \fillinMCmath{O(n^2m)}\\
-\fillinMCmathsoln{O(n^2)} & \qquad & \fillinMCmath{O(nm^2)}\\
+\fillinMCmath{O(n^2)} & \qquad & \fillinMCmath{O(nm^2)}\\
 \fillinMCmath{O(n+m)} & \qquad & \fillinMC{None of these}
-\end{array}$
+\end{array}$\\
+\ans{
+  Go through all nodes and check the degree of all, there must be only one node of degree $n-1$, all 
+  the other nodes must have degree $1$. This will be $O(n)$ because we are jut looping through the nodes.
+}
 
 \item Determine if $G$ contains a triangle, that is, three
 nodes $i,j,k$ such that $i$ and $j$ are adjacent,
 $i$ and $k$ are adjacent, and $j$ and $k$ are adjacent.
 
 $\begin{array}{lcl}
-\fillinMCmath{O(n)} & \qquad & \fillinMCmathsoln{O(nm)} \\
+\fillinMCmath{O(n)} & \qquad & \fillinMCmath{O(nm)} \\
 \fillinMCmath{O(n\log n)} & \qquad & \fillinMCmath{O(n^2m)}\\
 \fillinMCmath{O(n^2)} & \qquad & \fillinMCmath{O(nm^2)}\\
-\fillinMCmath{O(n+m)} & \qquad & \fillinMC{None of these}
-\end{array}$
+\fillinMCmath{O(n+m)} & \qquad & \fillinMCsoln{None of these}
+\end{array}$\\
+\ans{
+  This can be solve using a DFS algorithm with some modifications. We will go through each 
+  node $i$ in $G$ (this will have a running time of $O(n)$). Then with each $i$ do a DFS 
+  with a depth limit set to $3$. So if we do not find the node $i$ repeated at depth $3$ 
+  then we know that there is no other nodes $j$ and $k$ that make a triangle 
+  between $i$, $j$ and $k$. This DFS will have a worst running time of (n+m), so the 
+  algorithm will have a complexity $O(n^2+nm)$ \\
+}
 
 \item Find a node $i$ of $G$ that minimizes $d(i) = \max_j \{
       \textit{dist}(i, j) \}$, where $\textit{dist}(i,j)$ is the
@@ -156,12 +171,18 @@ length of the shortest path connecting $i$ to $j$. (Again, it's
 not obvious for this problem that there might not be a better
 algorithm, but this seems to be the best possible with simple
 graph algorithm techniques.)
+\ans{
+  To calculate $\textit{dist}(i,j)$ we will use BFS that will take complexity $O(n+m)$ 
+  and there are only n choose 2 edges with different $(i,j)$ values, this is because 
+  $(i,j)$ is the same that $(j,i)$. So wee need to run BFS n choose 2 edges, the complexity 
+  would be $O(n^3+n^2m)$
+}
 
 $\begin{array}{lcl}
 \fillinMCmath{O(n)} & \qquad & \fillinMCmath{O(nm)} \\
 \fillinMCmath{O(n\log n)} & \qquad & \fillinMCmath{O(n^2m)}\\
 \fillinMCmath{O(n^2)} & \qquad & \fillinMCmath{O(nm^2)}\\
-\fillinMCmath{O(n+m)} & \qquad & \fillinMCmathsoln{None of these}
+\fillinMCmath{O(n+m)} & \qquad & \fillinMCsoln{None of these}
 \end{array}$
 \end{enumerate}
 
@@ -185,22 +206,43 @@ matching the scenario.
 share no edges, each of length $k$ for some integer $k \geq
    2$. \textbf{Statement:} $n > k+1$.
 
-$\fillinMCmathsoln{ALWAYS}$
+$\fillinMCsoln{ALWAYS}$
 
 $\fillinMC{SOMETIMES}$
 
-$\fillinMC{NEVER}$
+$\fillinMC{NEVER}$\\
+\ans{
+  The smaller instance of the problem would be a graph with $5$ nodes all connected in a 
+  line. The $k$ in this instance would be $2$ so the statement is true $5 > 2 + 1 $. 
+  If we add one node to one size the $n$ will increase by $1$, the statement still true 
+  $6 > 2 + 1 $. The only way to increase $k$ is by adding two nodes one on each end of 
+  the two paths, this will increase the $k$ by $1$ and $n$ by two. Which preserves the 
+  statement $7 > 3 + 1$.\\ \\
+  There is no way that the $k$ is increased when the $n$ doesn't so by adding more nodes 
+  two those two paths or to any part in the graph, the difference between $n$ and $k$ will 
+  be larger every time.
+}
 
 \item \textbf{Scenario:} A rooted tree found by running DFS from some
 node of a connected,
 undirected graph with $n \geq 2$. \textbf{Statement:} Every
 node in the tree has at most two children.
 
-$\fillinMCmathsoln{ALWAYS}$
+$\fillinMC{ALWAYS}$
 
-$\fillinMC{SOMETIMES}$
+$\fillinMCsoln{SOMETIMES}$
 
-$\fillinMC{NEVER}$
+$\fillinMC{NEVER}$ \\
+\ans{
+  This depends on the topology of the graph and which metric the DFS uses to determine 
+  the order in which adjacent nodes are visited. An example that proves that the statement
+  is not always true, is with the definition of a star graph from the excercise \textbf{1.2}. \\ \\
+  If we run DFS on a star graph $G$ starting from the center of the star, then our rooted tree 
+  found by our DFS will have the root node with $n-1$ children. So if $G$ has $n <= 3$ the 
+  statement will be true the DFS graph will have at most $2$ children. But if $n > 3$ then 
+  the statement is false, i.e., for $n = 4$ the root node of the DFS graph will have $3$ 
+  children.
+}
 
 \item \textbf{Scenario:} A weakly-connected but \textbf{not} strongly-connected,
 directed graph with $n \geq 2$. \textbf{Statement:} A simple cycle of
@@ -212,7 +254,14 @@ $\fillinMC{ALWAYS}$
 
 $\fillinMC{SOMETIMES}$
 
-$\fillinMCmathsoln{NEVER}$
+$\fillinMCsoln{NEVER}$\\
+\ans{
+  There can't be a simple cycle of length $n + 1$ in any graph, 
+  because a cycle of length $n + 1$ needs to be connected with $n + 2$ nodes, so two nodes 
+  will have to be repeated, on a simple cycle there can't be more repeated nodes rather 
+  than the start/end node, so it is impossible that a \textbf{simple} cycle of length 
+  $n+1$ exists in any directed graph.
+}
 \end{enumerate}
 
 \section{Graph Application: Tutorial Assignments}
@@ -269,7 +318,7 @@ node appears at most once. A \textbf{good} solution is a maximum matching.
   tutorials. \\ \\
   The graph also need to have edges between students and 'seats', this edges will represent that a 
   student $i$ is capable of attend to a tutorial $t_j$. So to create this edges, we loop through the 
-  set $S_i$ of each student $i$ and for every tutorial $t_j$, that he can attend, we create an edge 
+  set $S_i$ of each student $i$ and for every tutorial $t_j$, that $i$ can attend, we create an edge 
   between $i$ and every 'seat' node of the tutorial $t_j$ in $G$. \\
   This process will give us the graph $G$ that we can use to solve BMP.
 }
@@ -307,8 +356,8 @@ your TAP algorithm, as a function of $n$? \\
 \ans{
   On the worst case the instance generated instance $I'$ will have $2n$ nodes and $n^2$ edges, so if 
   the algorithm that computes the solution for BMP in $O(nm)$ then the runtime of computing $I'$ would 
-  be $n^3$, if we consider this in the reduction algorithm the whole running time will be $n^2 + n^3 + 
-  n$, that will give us $O(n^3)$.
+  be $n^3$ since $m = n^2$, if we consider this in the reduction algorithm the whole running time 
+  will be $n^2 + n^3 + n$, that will give us $O(n^3)$.
 }
 
 \item Explain why your reduction is correct.  Suppose that $M_{good}'$ is
@@ -323,16 +372,17 @@ your reduction applied to $M_{good}$.
   bipartite graph with the instance $I$ for the TAP. Therefore $M'_{good}$ must be a valid solution 
   for BMP. \\
   Then $M'_{good}$ must have a set of matchings between students and tutorial seats, in which each 
-  student $i$ appearsat most once and every tutorial $t_j$ is link to at most $c_j$ students. So 
-  by visiting each matching in the set $M'_{good}$ we can create a set $A_{good}$ and for each student 
-  in $M'_{good}$ we add it to the corresponding tutorial in $A_{good}$. Giving us at the end a valid 
-  solution with the instance $I$ for TAP.
+  student $i$ appears at most once, every tutorial seat $seat_{t_jx}$ is link to at most $1$ student, 
+  and there are at most $c_j$ 'seats' of tutorial $t_j$. So by visiting each matching in the set 
+  $M'_{good}$ we can create a set $A_{good}$ and for each student in $M'_{good}$ we add it to 
+  the corresponding tutorial $t_j$ in $A_{good}$. Giving us at the end a valid solution with the 
+  instance $I$ for TAP.
 }
 
 \item Show that $A_{good}$ is a good solution for $I$, i.e., maximizes
 the number of assigned students. \\
 \ans{
-  If $M'_{good}$ is a good solution to BMP, meaning that it haves the maximum matching in $I'$ which 
+  If $M'_{good}$ is a good solution to BMP, meaning that it have the maximum matching in $I'$ which 
   represents students and tutorials seats, then $A_{good}$ will be a good solution for TAP, 
   because it will have the most number of students matched for a tutorial, while still being a 
   valid solution for TAP (proved on point 3.5.a).
@@ -357,31 +407,47 @@ that the shortest path between $s$ and $t$ is strictly greater than
 $n/2$. Show that $G$ must contain a vulnerability. \\
 \ans{
   In order to have a path between two nodes ($u$ and $v$) that is strictly greater than $n/2$ in $G$, 
-  there must be an articulation node $w$ in the graph. We can see $w$ as a bottleneck through which the 
-  path $s$ must pass through in order to reach $v$ from $u$ there won't be another way to reach $v$ 
-  from $u$. Because $G$ is complete there is no other way for it to have a path greater than $n/2$, 
-  it must contain a bottleneck, which will increase the path length. \\ \\
+  there must be an articulation node $w$ in the graph. We can see $w$ as a bottleneck where the 
+  path must pass to reach $v$ from $u$. \\ \\
+  Because $G$ is complete if there are no vulnerabilities all the paths from any node to 
+  another node are at most $n/2$ in length. The only way to increase the length of the longest path 
+  in $G$ is to add an extra node $x$ and connect it to a node which we called $w$, 
+  this will increase the length of the longest path to be greater than $n/2$. 
+  But this will introduce a vulnerability to $G$ in the node $w$.\\ \\
   So if $w$ is disconnected from the graph it will create at least two separate connected 
-  components, in one of them will be $u$ and in the other one $v$ so the path $s$ will 
-  no longer exists. For this application problem we consider $w$ as a vulnerability 
-  because if it doesn't exists there would not be a way to reach $v$ from $u$.
+  components, in one of them it will be all the first part of the graph and in the other one it will 
+  be the node $x$ that we connected to $w$. So we can't reach $x$ from any other node in the 
+  $G$, hence $w$ will be a vulnerability.
 }
-
+\clearpage
 \item Give an algorithm that, given as input $G$ and a node $s$ such that
 there is some node $t$ for which the distance between $s$ and $t$
 is guaranteed to be greater than $n/2$, finds a vulnerability. Your
 algorithm should have running time $O(m + n)$. 
 \begin{tabbing}
-  xxx\=xxx\=xxx\=xxxxxxx\= \kill \color{ans}
+  xxxx\=xxxx\=xxxx\=xxxx\=xxxx\= \kill \color{ans}
   {\bf Algorithm} {\em Find-Vulnerability} ($V,E,s, depth=0$)\\ [0pt \color{ans}]
-  \> // Initialize scores with the substring score of the first column and row \\
+  \> // Initialize queue  \\
+  \> let $n$ be size of $V$ \\
+  \> let $q$ be a queue \\
   \> mark $s$ as visited \\
-  \> For all neighbours $v$ of $s$: \\
-  \>\> if $v$ is not marked: \\
-  \>\>\> if $depth > n/2$: \\
-  \>\>\>\> return $s$ \\
-  \>\>\> return Find-Vulnerability($V,E,v,depth+1$) \\
-  \> return null
+  \> set $s$.depth to $0$ \\
+  \> $q$.enqueue($s$) \\
+  \> // Iterate on the queue until is empty  \\
+  \> while $q$ is not empty: \\
+  \>\> let $t$ be $q$.dequeue \\
+  \>\> // Go through all neighbours of $t$  \\
+  \>\> For all neighbours $v$ of $t$: \\
+  \>\>\> if $v$ is not marked: \\
+  \>\>\>\> // If the path from $s$ to $v$ has a length greater than $n/2$ return $t$ \\
+  \>\>\>\> if $t$.depth + 1 $ > n/2$: \\
+  \>\>\>\>\> return $t$ \\
+  \>\>\>\> // If not add $v$ to queue  \\
+  \>\>\>\> mark $v$ as visited \\
+  \>\>\>\> set $v$.depth to $t$.depth + 1 \\
+  \>\>\>\> $q$.enqueue($v$) \\
+  \> // No vulnerability found \\
+  \> return null \\
 \end{tabbing}
 \ans{
   The algorithm above has a running time $O(m+n)$ because it simply does a BFS from the node 
