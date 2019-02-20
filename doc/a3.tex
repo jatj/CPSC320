@@ -34,6 +34,7 @@
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{braket}
+\usepackage{tikz}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 \setlength{\columnseprule}{1pt}
@@ -181,16 +182,111 @@ xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
 \item \question{Give a moderately-sized ($n \le 8$, $k \le 3$) instance, showing the dates where this greedy solution schedules the dinners, and a different optimal (not necessarily greedy) solution also  scheduling a minimal number of dinners.}  
    A diagram may be helpful in illustrating your instance and solutions.
 
+\soln{
+   Instance of "Special dates":
+   \[
+      P = [(5,8), (4,10), (7,7), (3,8), (6,7), (9,10), (11,12), (15,20)]
+   \]
+   \[ k = 3\]
+   \begin{tikzpicture}
+      \draw [|-|,thick] (5,0) -- (8,0);
+      \node[align=center, above] at (6.5,0){1};
+      \node[align=center, below] at (5,-0.2){5};
+      \node[align=center, below] at (8,-0.2){8};
+      \draw [|-|,thick] (4,-1) -- (10,-1);
+      \node[align=center, above] at (7.0,-1){2};
+      \node[align=center, below] at (4,-1.2){4};
+      \node[align=center, below] at (10,-1.2){10};
+      \draw [|-|,thick] (7,-2) -- (7,-2);
+      \node[align=center, above] at (7.0,-2){3};
+      \node[align=center, below] at (7,-2.2){7};
+      \node[align=center, below] at (7,-2.2){7};
+      \draw [|-|,thick] (3,-3) -- (8,-3);
+      \node[align=center, above] at (5.5,-3){4};
+      \node[align=center, below] at (3,-3.2){3};
+      \node[align=center, below] at (8,-3.2){8};
+      \draw [|-|,thick] (6,-4) -- (7,-4);
+      \node[align=center, above] at (6.5,-4){5};
+      \node[align=center, below] at (6,-4.2){6};
+      \node[align=center, below] at (7,-4.2){7};
+      \draw [|-|,thick] (9,-5) -- (10,-5);
+      \node[align=center, above] at (9.5,-5){6};
+      \node[align=center, below] at (9,-5.2){9};
+      \node[align=center, below] at (10,-5.2){10};
+      \draw [|-|,thick] (11,-6) -- (12,-6);
+      \node[align=center, above] at (11.5,-6){7};
+      \node[align=center, below] at (11,-6.2){11};
+      \node[align=center, below] at (12,-6.2){12};
+      \draw [|-|,thick] (15,-7) -- (20,-7);
+      \node[align=center, above] at (17.5,-7){8};
+      \node[align=center, below] at (15,-7.2){15};
+      \node[align=center, below] at (20,-7.2){20};
+   \end{tikzpicture}
+   Solution for Choose-Dinner-Dates: 
+   \[ [7, 7, 10, 12, 20] \]
+   Different solution: 
+   \[ [7, 8, 10, 11, 15] \]
+}
+
 \item \question{Show that Algorithm Choose-Dinner-Dates produces a valid solution, that is, one for which you earn credit for every special date.}
+\soln{
+   On each call to the algorithm we get the earliest deadline $d_{min}$ of all $P$ and remove from $P$ at most $k$ 
+   elements of $P$ that have an $s <= d_{min}$. By doing this every element we delete from $P$ will receive a credit for a 
+   date on $d_{min}$. This is because $d_{min}$ is the earliest deadline in $P$, so we can cover from $d_{min}$ all 
+   the "special dates" that have a start $s$ less than or equal to $d_{min}$, because we know that their corresponding 
+   deadlines must be equal or greater than $d_{min}$.
+}
 
 \item \question{Show that Algorithm Choose-Dinner-Dates produces an optimal solution, that is, one that minimizes the number of dinners scheduled.}
+\soln{
+   Consider the following solutions for the instance in question 1:
+   \[ S = [7, 7, 10, 12, 20] \text{ -> Choose-Dinner-Dates solution}\]
+   We know that S will be sorted in increasing order because the algorithm on each call it selects $d_{min}$ as the earliest 
+   deadline, so the next earliest deadline in the recursive call has to be equal or greater than $d_{min}$ \\
+   \[ S' = [7, 8, 10, 11, 15] \text{ -> Different optimal solution} \]
+   We assume that S' will be sorted in increasing order \\ 
+   let $s = S[1]$ \\
+   let $s' = S'[1]$ \\
+   By switching $s'$ with $s$, $S'$ will still give us a valid solution, because we know there is no other element in 
+   $P$ with an earlier deadline than $s$. So every element in $P$ that has received a credit by having a date on $s'$ 
+   will also receive a credit by having a date on $s$, because $s'$ must be less than or equal to $s$. \\ \\ 
+   If $s'$ was greater than $s$ then $S'$ won't be a valid solution, because we know that there exists a 
+   "special date" in $P$ that doesn't receive a credit by having a date on $s'$, because $s$ is the earliest deadline 
+   of all the dates in $P$.\\ \\
+   We can repeat the swap on the elements $S[i]$ and $S'[i]$ at any index $i$ and the solution $S'$ will still 
+   be a valid solution and since we know $S'$ is an optimal solution, then $S$ has to be optimal.
+}
 
 \item \question{What data structures could you use to ensure a running time of $O(n \log n)$? (Don't forget to justify your answer.)}
+\soln{
+   To ensure a running time of $O(n \log n)$ I would use a priority queue to store $P$. This will allow us to access 
+   the min element, i.e. the earliest deadline $d_{min}$ in constant time, and to delete an element from it in 
+   $\log n$. \\ \\
+   So for the case in which $k=n$ and all elements have the same deadline, then the while will take $O(n)$ time 
+   by going through all elements, $O(1)$ to find the min deadline in $P$ and $O(\log n)$ deleting at each iteration one,
+   which will have a total running time of $O(n \log n)$. 
+}
 
 \item A different greedy algorithm
 schedules a dinner on the latest start date and works
 backwards.  \question{Give pseudocode that does this.} (You do not need
 to provide any justification or reasoning about your algorithm.)
+\soln{
+   \begin{tabbing}
+   xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+   \> {\bf Algorithm} Different-Dinner-Dates($P, k$) \\
+   \>\>   If $n = 0$ \\
+   \>\>\>   Return the empty list \\
+   \>\>   Else \\
+   \>\>\>   Set $s_{\max}$ to be the latest start date of any pair in $P$ \\
+   \>\>\>   $i=0$ \\
+   \>\>\>   While $i<k$ and there is some pair $(s',d')$ in $P$ with $d' \ge s_{\max}$ \\
+   \>\>\>\>    Choose such a pair $(s',d')$ with the latest start date (i.e., greatest $s'$) \\
+   \>\>\>\>    Remove pair $(s',d')$ from $P$ \\
+   \>\>\>\>    Increment $i$ \\
+   \>\>\>   Return $\{s_{\max}\}$ $+$ Different-Dinner-Dates($P,k$) 
+   \end{tabbing}
+}
 \end{enumerate}
 \section{More on another spanning algorithm}
 \label{sec-2}
@@ -220,8 +316,32 @@ xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
 
 \begin{enumerate}
 \item \question{Explain why the algorithm always returns a tree on all inputs $G = (V,E)$ where all edges of $E$ have different weights.}
+\soln{
+   The problem with this algorithm that causes a solution that is not a tree, occurs when 
+   two connected components, at the one iteration of the while loop, select different edges 
+   that connect them together. In this case a cycle is introduced to the solution because 
+   it creates two possible paths from one connected component to another one. \\ \\
+   If all edges of E have different weights then we know that for each pair of connected 
+   connected components there exists a single edge that has the lowest weight. Thus there is 
+   no way the algorithm chooses another edge rather than that one to connect them, both 
+   connected components must choose the same edge. So we can assume that when we connect 
+   two connected components there wont be a cycle introduced in the solution. \\ \\ 
+   This process is repeated for all the algorithm, guaranteeing no cycles if each edge in E 
+   has a different weight, which will give us a tree as a solution. \\ 
+}
 
 \item \question{Explain why the tree returned by the algorithm is a minimum spanning tree on all inputs $G = (V,E)$ where all edges of $E$ have different weights.}
+\soln{
+   A tree returned by the algorithm will always have all the minimum weighted edges because 
+   at each iteration when we add a new edge that will always be the minimum weighted edge
+   that connects one connected component to another one. This will be repeated on all connected 
+   components that we are connecting on each iteration, ensuring that G' always have the 
+   minimum weighted edges. \\ \\
+   Thus our solution will be a tree (proved on previous question), which means we have the 
+   minimum number of edges that connect every single node in G, furthermore every edge in the 
+   tree will have the minimum weight on it, this characteristics are the ones that make the 
+   solution tree of this algorithm a minimum spanning tree.
+}
 \end{enumerate}
 
 \section{Runs of zeros}
@@ -240,9 +360,9 @@ strings of size $n \ge 1$.
 \item \question{Give values for $R(1)$ and $R(2)$}:
 
 \hspace{.5in}
-$R(1)$: \fillinblank{?}
+$R(1)$: \fillinblanksoln{1}
 \hspace{.5in}
-$R(2)$: \fillinblank{?}
+$R(2)$: \fillinblanksoln{3}
 
 \item \question{Provide a recurrence relation for $R(n)$, $n \ge 1$.}
 
