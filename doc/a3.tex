@@ -35,6 +35,7 @@
 \usepackage{multicol}
 \usepackage{braket}
 \usepackage{tikz}
+\usepackage[linguistics]{forest}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 \setlength{\columnseprule}{1pt}
@@ -365,10 +366,38 @@ $R(1)$: \fillinblanksoln{1}
 $R(2)$: \fillinblanksoln{3}
 
 \item \question{Provide a recurrence relation for $R(n)$, $n \ge 1$.}
+\soln{
+   \begin{equation*}
+      R(n) = 
+      \Bigg\{
+         \begin{multlined}[c]
+            \\ 1, \text{ when } n = 1 \\
+            2R(n-1) + 2^{n-2}, \text{ when } n > 1 \\
+         \end{multlined}
+      \Bigg\}
+   \end{equation*}
+}
 
 \item \question{Justify why your recurrence is correct.}
+\soln{
+   Base case: \\
+   $R(n=1) = 1$ \\ \\
+   If $n=2$ \\
+   $R(2) = 2R(1) + 2^{2-2} = 2(1) + 1 = 3 $ \\ 
+   $R(n)$ provides a valid solution for n = 2 \\ \\
+   Assuming $R(n)$ provides a valid solution for $n=k$, for a $n=k+1$ we have \\
+   $R(n=k+1) = 2R(k) + 2^{k+1-2} = 2R(k) + 2^{k-1}$ \\ \\
+   If we choose $k+1=3$ \\
+   $R(n=3) = 2R(2) + 2^{2-1} = 2(3) + 2 = 8$ Which is true \\ \\
+   If we choose $k+1=4$ \\
+   $R(n=4) = 2R(3) + 2^{3-1} = 2(8) + 4 = 20$ Which is also true\\ \\
+   So for every $k >= 1$ element this formula will hold.
+}
 
 \item \question{Solve your recurrence, to express $R(n)$ as a function of $n$.}
+\soln{
+   $R(n) = 2R(n-1) + \lceil 2^{n-2} \rceil$
+}
 \end{enumerate}
 \section{Nuts and bolts}
 \label{sec-4}
@@ -421,11 +450,37 @@ some  integer $k  > 2$.
 \[
    T(n) \le \left\{ \begin{array}{ll} 
                     c, \qquad \qquad \qquad \qquad\mbox{when $n=0$ or $n=1$} & \mbox{// base cases} \\[.3in]
-                    \fillinblankmath{XXXXXXXXXXXXXXXXXX} & // \mbox{recursive case} \\
+                    \fillinblankmathsoln{ cn + T(n/3) + T(2n/3)} & // \mbox{recursive case} \\
                     \end{array} \right.
    \]
 
 \item \question{Solve your recurrence to get a good asymptotic (big-$O$) upper-bound on the  running time of this algorithm, as a function of both $n$ and $k$.}
+\soln{
+   \begin{forest}
+      [n
+        [$\frac{n}{3}$
+         [$\frac{n}{9}$]
+         [$\frac{2n}{9}$]
+        ]
+        [$\frac{2n}{3}$
+         [$\frac{2n}{9}$]
+         [$\frac{4n}{9}$]
+        ]
+      ]
+    \end{forest} \\
+   By the recursion tree above we know that the shallowest leaf of the tree is at level 
+   $\log_{3} n$ on the other hand the deepest leaf of the tree will be at level $\log_{3/2} n$. 
+   \\ \\ 
+   So we know that at most the algorithm will have to execute at most $\log_{3/2}$ times 
+   (to reach the deepest leaf), the running time of the base case is constant time and the 
+   running time done before calling the recursion function takes $O(n)$. $n$ will vary on 
+   each recursive call but it will be either $(\frac{n}{3})^i$ or $(\frac{2n}{3})^i$ at the 
+   level $i$, so if we add the running time of all the recursive calls at depth $i$ it will be 
+   $O(n)$. 
+   \\ \\ 
+   Thus the algorithm has to do $O(n)$ operations at most $O(\log n)$ times, so the 
+   asymptotic upper-bound of all the algorithm is $O(n \log n)$.
+}
 \end{enumerate}
 % Emacs 25.2.1 (Org mode 8.2.10)
 \end{document}
