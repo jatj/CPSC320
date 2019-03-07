@@ -1,0 +1,318 @@
+% Created 2019-02-25 Mon 17:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{algpseudocode}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{nth}
+\usepackage{tikz}
+\usetikzlibrary{positioning,chains,fit,shapes,shapes.misc,calc,arrows,patterns,decorations.pathreplacing}
+\usepackage{ccicons}
+\usepackage{calc}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{nopageno}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{braket}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\setlength{\columnseprule}{1pt}
+\newcommand{\bonusmarksamt}[1]{\textbf{[#1~BONUS~marks]}}
+\newcommand{\bonusmarkamt}[0]{\textbf{[1~BONUS~mark]}}
+\newcommand{\marksamt}[1]{\textbf{[#1~marks]}}
+\newcommand{\markamt}[0]{\textbf{[1~mark]}}
+\newcommand{\fillinMC}[1]{\fillinMCmath{\mbox{#1}}}
+\newcommand{\fillinMCmath}[1]{\begin{tikzpicture}\draw circle [radius=0.5em];\end{tikzpicture}\ #1}
+\newcommand{\fillinMCsoln}[1]{\fillinMCmathsoln{\mbox{#1}}}
+\newcommand{\fillinMCmathsoln}[1]{\begin{tikzpicture}\draw[black, fill=blue] circle [radius=0.5em];\end{tikzpicture}\ #1}
+\newcommand{\fillinMCAll}[1]{\fillinMCAllmath{\mbox{#1}}}
+\newcommand{\fillinMCAllmath}[1]{\begin{tikzpicture}\draw (0,0) rectangle (1em,1em);\end{tikzpicture}\ #1}
+\newcommand{\fillinMCAllsoln}[1]{\fillinMCAllmathsoln{\mbox{#1}}}
+\newcommand{\fillinMCAllmathsoln}[1]{\begin{tikzpicture}\draw[black, fill=blue] (0,0) rectangle (1em,1em);\end{tikzpicture}\ #1}
+\newcommand{\fillinblank}[1]{\fillinblankmath{\mbox{#1}}}
+\newcommand{\fillinblankmath}[1]{\begingroup\setlength{\fboxsep}{1em}\setlength{\fboxrule}{2pt}\fbox{\LARGE\phantom{#1}}\endgroup}
+\newcommand{\fillinblanksoln}[1]{\fillinblankmathsoln{\mbox{#1}}}
+\newcommand{\fillinblankmathsoln}[1]{\begingroup\setlength{\fboxsep}{1em}\setlength{\fboxrule}{2pt}\fbox{{#1}}\endgroup}
+\newcommand{\answerbox}[1][3\baselineskip]{%
+\noindent\setlength{\fboxrule}{2pt}\framebox[0.7\linewidth]{%
+\raisebox{2pt}[0pt][#1]{}%
+}\par\medskip%
+}
+\usepackage{collcell,array}
+\newcommand{\shiftdown}[1]{\smash{\raisebox{-.5\normalbaselineskip}{#1}}}
+\newcolumntype{C}{>{\collectcell\shiftdown}c<{\endcollectcell}}
+\newcommand{\shiftup}[1]{\smash{\raisebox{.5\normalbaselineskip}{#1}}}
+\def\sequence#1#2{\dsequence{#1}{1}{#2}}
+\def\dsequence#1#2#3{#1_{#2}, \ldots, #1_{#3}}
+\newtheorem{fact}{Fact}
+\def\imax{$\texttt{S}_{\max}$}
+\def\iprevmax{previous\_$\texttt{S}_{\max}$}
+\def\deleted{\texttt{covered}}
+%%% Adding Colour to Questions and Answers
+\usepackage{color}
+%Questions
+\def\question#1{\red{#1}}
+% Answers
+%Answer in short form
+\def\ans#1{\par\blu{Answer: #1}}%With header of Answer
+\def\soln#1{\par\blu{#1}} %Without header of Answer
+% Colors
+\definecolor{blu}{rgb}{0,0,0.5}
+\def\blu#1{{\color{blu}#1}}
+\definecolor{gre}{rgb}{0,.3,0}
+\def\gre#1{{\color{gre}#1}}
+\definecolor{red}{rgb}{0.5,0.0,0}
+\def\red#1{{\color{red}#1}}
+\def\norm#1{\|#1\|}
+%%% End for Colours
+\usepackage{collcell,array}
+\newcolumntype{C}{>{\collectcell\shiftdown}c<{\endcollectcell}}
+%\fancyhead{}\fancyfoot[C]{\tiny This work is licensed under a \href{http://creativecommons.org/licenses/by/4.0/}{Creative Commons Attribution 4.0 International License. \ccby}\\ For license purposes, the author is the University of British Columbia.}\pagestyle{fancyplain}
+\makeatletter
+\def\@myproof#1[#2]{\trivlist \item [\hskip\labelsep{\bf #1 {#2}: }]}
+\def\@begproof#1{\@ifnextchar[{\@myproof{#1}}{\@myproof{#1}[\unskip$\,$]}}
+\newenvironment{solution}{\vskip -10pt\leavevmode\@begproof{Solution}}{\endtrivlist}
+\def\sopt{S_{\textit{\scriptsize opt}}}
+\makeatother
+\fancyhead{}\fancyfoot[C]{\tiny This work is licensed under a \href{http://creativecommons.org/licenses/by-nc/4.0/}{Creative Commons Attribution-NonCommercial 4.0 International License. \ccbync}\\ For license purposes, the author is the University of British Columbia.}\pagestyle{fancyplain}
+\usepackage{mdframed}
+\BeforeBeginEnvironment{minted}{\begin{mdframed}}
+\AfterEndEnvironment{minted}{\end{mdframed}}
+\date{}
+\title{CPSC 320 2018W2: Assignment 4}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.2.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+\vspace{-0.5in}
+
+This assignment gives you practice at using recurrences to analyze
+algorithm runtimes. It also gives you practice at using recurrences as
+a means to design efficient algorithms, by inductively describing
+quantities that we'd like to compute.
+
+Please follow the guidelines given in Assignment 1 for submission to
+Gradescope, and for group collaboration. Remember to provide short
+justifications for your answers. Submit by the deadline \textbf{Monday 
+March 11, 2019 at 10PM}.
+
+Use \LaTeX to prepare your answers. Easiest will be to use the .tex
+file provided.  Please enclose each paragraph of your solution in
+\verb~\soln{Your solution here...}~.  \soln{Your solution will then appear in dark blue}, making it a lot easier for TAs to find the parts that you wrote.
+
+\section{Computer scientist makes \$0.38 a day -- find out how!!!}
+\label{sec-1}
+
+A popular pastime of computer scientists (especially academics) is
+fantasizing about how to use our knowledge to get rich playing the
+stock market. The first advice one receives about playing with stocks
+is ``buy low, sell high''.  Easier said than done.
+
+Suppose we have an array $S=[1..n]$ of integer values where $n \ge 1$ and $S[i]$
+represents the price of a stock on date $i$. Given this historic price
+data, the stock market problem is to (retrospectively) find the best dates to buy and sell
+the stock so as to maximize profit. If $i$ and $j$ are the buying and
+selling dates (with $i \le j$), then $[i,j]$ should be a contiguous
+interval with the highest jump in price, and $S[j] - S[i]$ is the
+profit.  (You can buy and sell stock on the same date, with a profit of
+zero.)
+
+\vspace{.1in}
+
+\noindent
+\textbf{Example:} The $S[1..13]= [5,10,3,4,9,21,13,1,12,20,15,17,4]$ has a
+maximum jump of $20-1 = 19$ if purchased on date $i=8$ and sold on date $j=10$.
+
+\begin{enumerate}
+\item \question{Describe a brute-force algorithm that identifies the best buy and sell dates, and the corresponding profit.}
+
+\item \question{What is the running time of your brute force algorithm?}
+
+\item A divide-and-conquer approach for the stock market problem can consider three cases:
+
+\begin{enumerate}
+\item The best buy and sell dates are both at most $\lfloor n/2 \rfloor$.
+\item The best buy and sell dates are both greater than $\lfloor n/2 \rfloor$.
+\item The best buy date is at most $\lfloor n/2 \rfloor$ and the best sell date
+      is greater than $\lfloor n/2 \rfloor$.
+\end{enumerate}
+
+In order to determine the solution in case (c), \question{what specific pieces of information do you need to know about the left half of the array, i.e., $S[1..\lfloor n/2 \rfloor]$, and the right half, $S[\lfloor n/2 \rfloor+1.. n]$?}
+
+\item \question{Write a recursive divide and conquer algorithm for the stock market problem.} (It may be handy for the algorithm to return
+the information needed about subproblems, as documented in
+your answer from part 3, in addition to the buy date, sell date and profit.)
+
+\item \question{Give a recurrence relation for the runtime of your algorithm, and solve it to get a big-$O$ bound on the running time.}
+\end{enumerate}
+\section{Medians and finding the kth largest element}
+\label{sec-2}
+We saw in the Divide and Conquer worksheet that the QuickSelect
+algorithm finds the median in $O(n)$ time, \textbf{if} we assume that we "get
+lucky" with the choice of pivot at every call to QuickSelect. By getting
+lucky on a call of size $n$, we mean that the rank of the pivot lies
+in the range $[n/4,3n/4]$, and so the size of the next recursive call is at
+most $3n/4$.  However in the worst case (when we are not lucky),
+the pivot might have rank 1 or rank $n$, in which
+case the algorithm takes $\Theta(n^2)$ time.
+
+Better algorithms for choosing the pivot don't rely on luck, but
+guarantee that the pivot partitions a problem of size $n$ into subproblems of
+size at most $7n/10$. One such algorithm carefully chooses $\lceil n/5 \rceil$
+elements in $O(n)$ time, and then sets the pivot to be the median
+of these elements using a recursive call.  Exactly how the $\lceil n/5 \rceil$
+elements are chosen is not important for this problem.  The rest of
+the algorithm is identical to our QuickSelect algorithm. Here is
+pseudocode:
+
+\begin{tabbing}
+xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+\> Algorithm  BetterQuickSelect($A[1..n], k$) \\
+\>\> // Return the $k$th largest element of A  \\
+\>\> // Precondition: $|A| = n \ge k$, and all elements of $A$ are unique \\ \\
+
+\>\> // Select the pivot element $p$ \\
+\>\> Create array $A'$ of $\lceil n/5 \rceil$ "carefully choosen" elements of $A$ // this takes $O(n)$ time \\
+\>\> Let $p =$ BetterQuickSelect($A', \lceil$ |A'|/2 $\rceil$) \\ \\
+\>\> Let Lesser  $=$ all elements from $A$ less than $p$ \\ 
+\>\> Let Greater $=$ all elements from $A$ greater than $p$ \\
+\>\> If |Greater| $= k - 1$ \\
+\>\>\>  Return $p$ \\
+\>\> Else If |Greater| $> k - 1$ \\
+\>\>\>  Return BetterQuickSelect(Greater, $k$) \\
+\>\> Else  // |Greater| $< k - 1$ \\
+\>\>\>  Return BetterQuickSelect(Lesser, $k - |\mbox{Greater}| - 1$)
+\end{tabbing}
+
+\begin{enumerate}
+\item 
+Let $T'(n)$ be the running time of BetterQuickSelect.
+\question{Write a recurrence for $T'(n)$.} Use
+the facts that the pivot partitions a problem of size $n$ into subproblems of size at most 7n/10
+and that the time to create list $A'$ is $O(n)$.
+
+\item \question{Solve your recurrence of part 1 to show that BetterQuickSelect takes time $O(n)$ in the worst case.}
+\end{enumerate}
+
+\section{More Expressions of 1's (Adapted from Jeff Erickson)}
+\label{sec-3}
+
+As in the tutorial of week 8, we can represent positive integers in
+terms of 1's, $+$, $\times$, and parentheses "(" and ")".  For
+example, all of the following expressions represent the integer 14:
+\[
+\begin{array}{l}
+1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1 \\
+((1 + 1) \times (1 + 1 + 1 + 1 + 1)) + ((1 + 1) \times (1 + 1)) \\
+(1 + 1) \times (1 + 1 + 1 + 1 + 1 + 1 + 1) \\
+(1 + 1) \times (((1 + 1 + 1) \times (1 + 1)) + 1) 
+\end{array}
+\]
+Given a positive integer $n$, we'd like to find the minimum number of
+1's in such an expression.  Let $M(n)$ denote this minimum.  For
+example, the fourth expression above is such an expression for 14, and
+so $M(14) = 8$.
+
+\begin{enumerate}
+\item \question{Use the recurrence for $M(n)$ from the solutions to the tutorial of week 8, plus memoization, to develop an efficient recursive algorithm to compute $M(n)$.}
+
+\item \question{What is the running time of your memoized algorithm?}
+\end{enumerate}
+
+\section{Max-Weight Independent Sets}
+\label{sec-4}
+Let $G=(V,E,w())$ be an undirected graph, with a weight $w(v)$
+associated with each node $v\in V$.  An \emph{independent set} of $G$ is a
+subset of nodes, none of which are connected by an edge of the
+graph. A \emph{max-weight} independent set is an
+independent set such that the sum of the weights of the nodes in the
+set is as large as possible. 
+Let MIS($G$) be the weight of a max-weight independent set for graph $G$.
+Finding max-weight independent sets and their corresponding weights
+can be done efficiently for simple types of graphs, although no efficient
+algorithm is known for general graphs. Here, you'll consider graphs
+that are paths.
+
+For $0 \le i \le n$, let $P = ([1..n],E,w)$ be a weighted path, that is $E = \{(1,2),
+(2,3), \ldots, (i,i+1), \ldots (n-1,n)\}$.  
+For example, in the following path, the weights are the numbers drawn
+inside the nodes.  
+
+\vspace{.1in}
+\hspace{.75in}
+\includegraphics[width=5in]{../figs/path-graph.png}
+
+\vspace{.1in}
+
+\noindent
+Let MIS$^+(P,i)$ be the max weight of an independent
+set of $P$ involving only nodes from $[1..i]$ and including $i$.  
+Similarly, let MIS$^-(P,i)$ be the max weight of an independent set
+involving only nodes from $[1..i-1]$ (node $i$ is excluded from the independent
+set). We can write MIS$^+(P,i)$ as:
+\[
+\mbox{MIS}^+(P,i) = \left \{\begin{array}{ll}
+                   0, & \mbox{if } i = 0 \\
+                   w(i) +  \mbox{MIS}^-(P,(i-1)), & \mbox{if } i \ge 1.
+                   \end{array} \right.
+\]
+
+\begin{enumerate}
+\item \question{Write a recurrence for $\mbox{MIS}^-(P,i)$, $i\ge 0$:}
+
+\[
+   \mbox{MIS}^-(P,i) = \left \{\begin{array}{ll}
+                   \rule{.3in}{0.4pt}, & \mbox{if } \rule{.5in}{0.4pt} \\[.3in]
+                   \max \{  \rule{1in}{0.4pt}, \rule{1in}{0.4pt} \}, & \mbox{if } \rule{.5in}{0.4pt} \\
+                   \end{array} \right.
+   \]
+
+\item 
+We can express MIS$(P)$ as $\max \{\mbox{MIS}^+(P,n), \mbox{MIS}^-(P,n) \}$. 
+\question{Use this to write an algorithm that computes MIS($P$) in $O(n)$ time.}  
+Your algorithm should use memoization and recursion to compute both
+MIS$^+(P,n)$ and MIS$^-(P,n)$, and use these quantities to compute
+MIS($P$). (No justification is needed, just the algorithm.)
+
+\item \question{Using a recursion tree, explain why the running time of your algorithm of part 3 is $\Theta(n)$.}
+\end{enumerate}
+
+\section{More Max-Weight Independent Sets}
+\label{sec-5}
+This problem concerns independent sets on "rail line" graphs. These
+undirected graphs have $2n$ nodes, labeled $[1,i]$, $[2,i]$, $1 \le i
+\le n$. A function $w()$ assigns a weight to each node. There are
+edges between $[1,i]$ and $[2,i]$ for each $i$, as well as edges
+between $[1,i]$ and $[1,i+1]$ for $1 \le i \le n-1$ and between
+$[2,i]$ and $[2,i+1]$ for $1 \le i \le n-1$, for a total of $2(n-1) +
+n = 3n-2$ edges.
+
+\question{Develop recurrences that could be used to efficiently compute MIS($G$) when the input $G$ is a rail line graph.} You
+can express MIS($G$) in terms of other quantities of your
+choosing that you can define, and then provide recurrences for these quantities.
+You do \emph{not} need to describe an algorithm to compute MIS($G$).
+% Emacs 25.2.1 (Org mode 8.2.10)
+\end{document}
