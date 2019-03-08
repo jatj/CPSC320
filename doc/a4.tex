@@ -34,6 +34,7 @@
 \usepackage{enumitem}
 \usepackage{multicol}
 \usepackage{braket}
+\usepackage[linguistics]{forest}
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 \setlength{\columnseprule}{1pt}
@@ -169,7 +170,7 @@ maximum jump of $20-1 = 19$ if purchased on date $i=8$ and sold on date $j=10$.
 
 \item \question{What is the running time of your brute force algorithm?}
 \soln{
-  The running time for this brute force algorithm would be $O(n^2)$. We have two nested for loops, 
+  The running time for this brute force algorithm would be $O(n^2)$. Because we have two nested for loops, 
   which grow with $n$.
 }
 
@@ -222,13 +223,35 @@ your answer from part 3, in addition to the buy date, sell date and profit.)
 \soln{
   \[
    \mbox{BlSh}(n) = \left \{\begin{array}{ll}
-      c, & \mbox{if start = end } \\[.3in]
-      \text{BlSh}(n/2) + \text{BlSh}(n/2) + c, & \mbox{otherwise} \\
+      c_1, & \mbox{if start = end } \\[.3in]
+      \text{BlSh}(n/2) + \text{BlSh}(n/2) + c_2, & \mbox{otherwise} \\
       \end{array} \right.
    \]
-   After solving the recurrence ralition, we got $ \text{BlSh}(n) = n + \text{log}^2(n) - log(n) $
-   so the big-$O$ bound on the running time for this 
-   algorithm is $O(n)$.
+  The recursion tree would be:
+  \begin{center}
+    \begin{forest}
+      [$T(n)$
+        [$T(n/2)$
+          [$T(n/4)$]
+          [$T(n/4)$]
+        ]
+        [$T(n/2)$
+          [$T(n/4)$]
+          [$T(n/4)$]
+        ]
+      ]
+    \end{forest}
+  \end{center}
+  We are dividing on each level the size in half, so our algorithm will hit the base case on level 
+  $i$ when $1 = \frac{n}{2^i}$, so all our leaf nodes will be on level $i = \log(n)$, thus we 
+  have $\log(n)$ levels. We can also notice that on each level $i$ we are spending $2^ic_2$ time. \\ \\
+  We know that we will have $n$ leafs reaching the base case with $T(1)$, and on the base case we 
+  spend $c_1$ time, so for all our base cases we will have $c_1n$ time. \\ \\
+  So we have to add the time at each level $i$ wich is $2^ic_2$. And we have $\log(n)-1$ levels without 
+  the leaf nodes. So we have $c_2\sum_{i=0}^{\log(n) - 1}2^i$, using the geometric series formula to 
+  solve that summatory, $c_2(\frac{1-2^{\log(n)}}{1-2})$ which yields $c_2n$.  \\ \\
+  The running time of the algorithm would be the time of the leafs + the internal nodes. So the 
+  algorithm will have $c_1n + c_2n$ running time which is $O(n)$.
 }
 \end{enumerate}
 \section{Medians and finding the kth largest element}
@@ -275,9 +298,40 @@ xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
 Let $T'(n)$ be the running time of BetterQuickSelect.
 \question{Write a recurrence for $T'(n)$.} Use
 the facts that the pivot partitions a problem of size $n$ into subproblems of size at most 7n/10
-and that the time to create list $A'$ is $O(n)$.
+and that the time to create list $A'$ is $O(n)$. \\
+\soln{
+  \[
+   T'(n) = \left \{\begin{array}{ll}
+      c, & \mbox{if |A| = 1 } \\[.3in]
+      n + T'(n/5) + T'(7n/10), & \mbox{otherwise} \\
+      \end{array} \right.
+  \]
+}
 
 \item \question{Solve your recurrence of part 1 to show that BetterQuickSelect takes time $O(n)$ in the worst case.}
+\soln{
+  The recursion tree would be:
+  \begin{center}
+    \begin{forest}
+      [$T(n)$
+        [$T(n/5)$
+          [$T(n/25)$]
+          [$T(7n/20)$]
+        ]
+        [$T(7n/10)$
+          [$T(7n/50)$]
+          [$T(49n/100)$]
+        ]
+      ]
+    \end{forest}
+  \end{center}
+  By analizing the recursion tree we can notice that at the $2$nd level we are spending $cn\frac{9}{10}$ time 
+  because each call is divided into two calls of sizes $\frac{n}{5}$, $\frac{7n}{10}$ This is a pattern 
+  that repeats on following $i$ level with a running time of $cn\frac{9}{10}^i$. So the total cost, 
+  would be represented by the following sum $cn\sum_{i=0}^{\infty} \frac{9}{10}^i$, that can be solved 
+  by the geometric series, $cn\sum_{i=0}^{\infty} \frac{9}{10}^i = cn\frac{1}{1-\frac{9}{10}} = 10cn$, 
+  thus the total running time of BetterQuickSelect is $O(n)$
+}
 \end{enumerate}
 
 \section{More Expressions of 1's (Adapted from Jeff Erickson)}
@@ -301,6 +355,24 @@ so $M(14) = 8$.
 
 \begin{enumerate}
 \item \question{Use the recurrence for $M(n)$ from the solutions to the tutorial of week 8, plus memoization, to develop an efficient recursive algorithm to compute $M(n)$.}
+\soln{
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} $M(n, Soln)$ \\
+  \>\> // Soln is the array with solutions, at the begining it is filled with $n$ $-1$s \\
+  \>\> $Min = \infty$ \\
+  \>\> If $n = 1 :$ \\
+  \>\>\> return $1$ \\
+  \>\> If $Soln[n] != -1 :$ \\
+  \>\>\> return $Soln[n]$ \\
+  \>\> For $i = 1$ to $n-1$ $:$ \\
+  \>\>\> $Min = $ \texttt{min}($Min$, $M(n-i)+M(i)$) \\
+  \>\>\> If $(i+1) < n/2 \text{ \&\& } (i+1)|n : $ \\
+  \>\>\>\> $Min = $ \texttt{min}($Min$, $M(n/(i+1))+M(i+1)$) \\
+  \>\> $Soln[n] = Min$ \\
+  \>\> return $Min$ \\
+  \end{tabbing}
+}
 
 \item \question{What is the running time of your memoized algorithm?}
 \end{enumerate}
