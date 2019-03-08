@@ -148,8 +148,30 @@ maximum jump of $20-1 = 19$ if purchased on date $i=8$ and sold on date $j=10$.
 
 \begin{enumerate}
 \item \question{Describe a brute-force algorithm that identifies the best buy and sell dates, and the corresponding profit.}
+\soln{
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} Buy-low-Sell-high($S$) \\
+  \>\> $n = |S|$ \\
+  \>\> $maxProfit = -\infty$ \\
+  \>\> $buy = -1$ \\
+  \>\> $sell = -1$ \\
+  \>\> for i = 1 to n: \\
+  \>\>\> for j = i to n: \\
+  \>\>\>\> $profit = S[j] - S[i]$ \\
+  \>\>\>\> If $profit > maxProfit:$ \\
+  \>\>\>\>\> $maxProfit = profit$ \\
+  \>\>\>\>\> $buy = i$ \\
+  \>\>\>\>\> $sell = j$ \\
+  \>\> Return $(buy, sell)$
+  \end{tabbing}
+}
 
 \item \question{What is the running time of your brute force algorithm?}
+\soln{
+  The running time for this brute force algorithm would be $O(n^2)$. We have two nested for loops, 
+  which grow with $n$.
+}
 
 \item A divide-and-conquer approach for the stock market problem can consider three cases:
 
@@ -161,12 +183,53 @@ maximum jump of $20-1 = 19$ if purchased on date $i=8$ and sold on date $j=10$.
 \end{enumerate}
 
 In order to determine the solution in case (c), \question{what specific pieces of information do you need to know about the left half of the array, i.e., $S[1..\lfloor n/2 \rfloor]$, and the right half, $S[\lfloor n/2 \rfloor+1.. n]$?}
+\soln{
+  For getting the solution on case (c) we would need to get the \emph{argmin} value of 
+  $S[1..\lfloor n/2 \rfloor]$ for the best buy day and the \emph{argmax} value of the 
+  $S[\lfloor n/2 \rfloor+1 .. n]$ for the best sell day.
+}
 
 \item \question{Write a recursive divide and conquer algorithm for the stock market problem.} (It may be handy for the algorithm to return
 the information needed about subproblems, as documented in
 your answer from part 3, in addition to the buy date, sell date and profit.)
+\soln{
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} BlSh($S$, $start$, $end$) \\
+  \>\> $n = end - start$ \\
+  \>\> If $n = 0 :$ \\
+  \>\>\> return $(S[start], start, start, start, start)$\\
+  \>\> Else \\
+  \>\>\> // Get the profit of the left and right side \\
+  \>\>\> $profitL$, $buyL$, $sellL$, $minL$, $maxL$ = \texttt{BlSh}($S$, $start$, $start + \lfloor n/2 \rfloor$)\\
+  \>\>\> $profitR$, $buyR$, $sellR$, $minR$, $maxR$ = \texttt{BlSh}($S$, $start + \lfloor n/2 \rfloor + 1$, $end$)\\ \\
+  \>\>\> // Get the min and max value of $S[start....end]$ \\ 
+  \>\>\> $amin$ = $\texttt{argmin}(S, minL, minR)$ \\
+  \>\>\> $amax$ = $\texttt{argmax}(S, maxL, maxR)$ \\ \\
+  \>\>\> // Calculate the profit based on the $min,max$ values \\
+  \>\>\> $profit$ = $S[maxR] - S[minL]$ \\ \\
+  \>\>\> // Return the maximum profit, best buy day, best sell day, minimum price, maximum price \\
+  \>\>\> If $profit > profitL \text{ \&\& } profit > profitR :$ \\
+  \>\>\>\> return $(profit, minL, maxR, amin, amax)$\\
+  \>\>\> Else if $profitL > profit \text{ \&\& } profitL > profitR :$ \\
+  \>\>\>\> return $(profitL, buyL, sellL, amin, amax)$\\
+  \>\>\> Else $:$\\
+  \>\>\>\> return $(profitR, buyR, sellR, amin, amax)$\\
+  \end{tabbing}
+}
 
 \item \question{Give a recurrence relation for the runtime of your algorithm, and solve it to get a big-$O$ bound on the running time.}
+\soln{
+  \[
+   \mbox{BlSh}(n) = \left \{\begin{array}{ll}
+      c, & \mbox{if start = end } \\[.3in]
+      \text{BlSh}(n/2) + \text{BlSh}(n/2) + c, & \mbox{otherwise} \\
+      \end{array} \right.
+   \]
+   After solving the recurrence ralition, we got $ \text{BlSh}(n) = n + \text{log}^2(n) - log(n) $
+   so the big-$O$ bound on the running time for this 
+   algorithm is $O(n)$.
+}
 \end{enumerate}
 \section{Medians and finding the kth largest element}
 \label{sec-2}
