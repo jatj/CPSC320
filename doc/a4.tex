@@ -245,12 +245,12 @@ your answer from part 3, in addition to the buy date, sell date and profit.)
   We are dividing on each level the size in half, so our algorithm will hit the base case on level 
   $i$ when $1 = \frac{n}{2^i}$, so all our leaf nodes will be on level $i = \log(n)$, thus we 
   have $\log(n)$ levels. We can also notice that on each level $i$ we are spending $2^ic_2$ time. \\ \\
-  We know that we will have $n$ leafs reaching the base case with $T(1)$, and on the base case we 
+  We know that we will have $n$ leaves reaching the base case with $T(1)$, and on the base case we 
   spend $c_1$ time, so for all our base cases we will have $c_1n$ time. \\ \\
-  So we have to add the time at each level $i$ wich is $2^ic_2$. And we have $\log(n)-1$ levels without 
+  So we have to add the time at each level $i$ which is $2^ic_2$. And we have $\log(n)-1$ levels without 
   the leaf nodes. So we have $c_2\sum_{i=0}^{\log(n) - 1}2^i$, using the geometric series formula to 
   solve that summatory, $c_2(\frac{1-2^{\log(n)}}{1-2})$ which yields $c_2n$.  \\ \\
-  The running time of the algorithm would be the time of the leafs + the internal nodes. So the 
+  The running time of the algorithm would be the time of the leaves + the internal nodes. So the 
   algorithm will have $c_1n + c_2n$ running time which is $O(n)$.
 }
 \end{enumerate}
@@ -358,23 +358,31 @@ so $M(14) = 8$.
 \soln{
   \begin{tabbing}
   xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
-  \> {\bf Algorithm} $M(n, Soln)$ \\
-  \>\> // Soln is the array with solutions, at the begining it is filled with $n$ $-1$s \\
+  \> {\bf Algorithm} $M(n, Soln[-1...-1_n])$ \\
+  \>\> // Soln is an array with solutions, at the begining it is filled with $n$ $-1$s \\
   \>\> $Min = \infty$ \\
   \>\> If $n = 1 :$ \\
   \>\>\> return $1$ \\
   \>\> If $Soln[n] != -1 :$ \\
   \>\>\> return $Soln[n]$ \\
   \>\> For $i = 1$ to $n-1$ $:$ \\
-  \>\>\> $Min = $ \texttt{min}($Min$, $M(n-i)+M(i)$) \\
+  \>\>\> $Min = $ \texttt{min}($Min$, $M(n-i,Soln)+M(i,Soln)$) \\
   \>\>\> If $(i+1) < n/2 \text{ \&\& } (i+1)|n : $ \\
-  \>\>\>\> $Min = $ \texttt{min}($Min$, $M(n/(i+1))+M(i+1)$) \\
+  \>\>\>\> $Min = $ \texttt{min}($Min$, $M(n/(i+1),Soln)+M(i+1,Soln)$) \\
   \>\> $Soln[n] = Min$ \\
   \>\> return $Min$ \\
   \end{tabbing}
 }
 
 \item \question{What is the running time of your memoized algorithm?}
+\soln{
+  Since we are saving the results of all subproblems we know that we won't repeat work, so there will 
+  be at most $n$ recursive cases, each of these cases will have a running time of $n$ because so the 
+  total time on the recursive cases would be $n^2$. \\  \\
+  For the rest of the calls to the algorithm they will be leaves or base cases. This base cases 
+  take constant time so for computing all of the leaves we will have $n$ time, thus the total running 
+  time of the algorithm would be $n^2 + n$ which is $O(n^2)$
+}
 \end{enumerate}
 
 \section{Max-Weight Independent Sets}
@@ -417,22 +425,94 @@ set). We can write MIS$^+(P,i)$ as:
 
 \begin{enumerate}
 \item \question{Write a recurrence for $\mbox{MIS}^-(P,i)$, $i\ge 0$:}
-
+\soln{
 \[
    \mbox{MIS}^-(P,i) = \left \{\begin{array}{ll}
-                   \rule{.3in}{0.4pt}, & \mbox{if } \rule{.5in}{0.4pt} \\[.3in]
-                   \max \{  \rule{1in}{0.4pt}, \rule{1in}{0.4pt} \}, & \mbox{if } \rule{.5in}{0.4pt} \\
+                   0, & \mbox{if i<= 1} \\[.3in]
+                   \max \{ \mbox{MIS}^+(P,i-1) , \mbox{MIS}^+(P,i-2) \}, & \mbox{if i > 1} \\
                    \end{array} \right.
    \]
-
+   }
 \item 
 We can express MIS$(P)$ as $\max \{\mbox{MIS}^+(P,n), \mbox{MIS}^-(P,n) \}$. 
 \question{Use this to write an algorithm that computes MIS($P$) in $O(n)$ time.}  
 Your algorithm should use memoization and recursion to compute both
 MIS$^+(P,n)$ and MIS$^-(P,n)$, and use these quantities to compute
 MIS($P$). (No justification is needed, just the algorithm.)
+\soln{
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} $MIS(P)$ \\
+  \>\> // Soln is an array with solutions, at the begining it is filled with $n$ $-1$s \\
+  \>\> $Soln = [-1...-1_n]$ \\
+  \>\> $n = |V|$ \\
+  \>\> return \texttt{max}\{$MIS^+(P,n,Soln),MIS^-(P,n,Soln)$\} \\
+  \end{tabbing}
+  % 
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} $MIS^+(P,i,Soln)$ \\
+  \>\> If $i = 0$ \\
+  \>\>\> return $0$ \\
+  \>\> return $w(i) + MIS^-(P,i-1,Soln)$ \\
+  \end{tabbing}
+  % 
+  \begin{tabbing}
+  xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+  \> {\bf Algorithm} $MIS^-(P,i,Soln)$ \\
+  \>\> If $i \leq 1$ \\
+  \>\>\> return $0$ \\
+  \>\> If $Soln[i] = -1$ \\
+  \>\>\> $Soln[i] = $ \texttt{max}\{$MIS^+(P,i-1,Soln),MIS^-(P,i-1,Soln)$\} \\
+  \>\> return $Soln[i]$ \\
+  \end{tabbing}
+}
 
 \item \question{Using a recursion tree, explain why the running time of your algorithm of part 3 is $\Theta(n)$.}
+\soln{
+  Below is the recursion tree for the example graph path ($2-8-6-3-6$), the leaf nodes are marked with 
+  an *:
+  \begin{center}
+    \begin{forest}
+      [$MIS(n)$
+        [$MIS^+(n)$
+          [$MIS^-(n-1)$
+            [$MIS^+(n-2)$
+              [$MIS^-(n-3)$
+                [$MIS^+(n-4)$
+                  [$MIS^-(n-5)*$]
+                ]
+                [$MIS^-(n-4)*$]
+              ]
+            ]
+            [$MIS^-(n-2)$
+              [$MIS^+(n-3)$
+                [$MIS^+(n-4)*$]
+              ]
+              [$MIS^-(n-3)*$]
+            ]
+          ]
+        ]
+        [$MIS^-(n)$
+          [$MIS^+(n-1)$
+            [$MIS^-(n-2)*$]
+          ]
+          [$MIS^-(n-1)*$]
+        ]
+      ]
+    \end{forest}
+  \end{center}
+  Using this recursion tree, we can notice that we due to the memoization on the function $MIS^-(P,i)$
+  we wont have more than $n$ recursive calls to $MIS^-(P,i)$, and we will also have no more than 
+  $n$ calls to $MIS^-(P,i)$ that are leaves, either reaching the base case or stopped because the 
+  solution is already computed. So we would have $2n$ calls to $MIS^-(P,i)$ doing constant $c_1$ operations, 
+  thus $2c_1n$ for calling all the $MIS^-(P,i)$ on $MIS(P)$. \\ \\
+  We also need the time of calling all the $MIS^+(P,i)$ which are upperbounded to $n$ because one 
+  call either is a base case or call $MIS^-(P,i)$, since $MIS^-(P,i)$ is upperbounded by $n$, the 
+  calls to $MIS^+(P,i)$ will be also upperbounded by $n$, hence the running time of all 
+  $MIS^+(P,i)$ calls is $c_2n$. \\ \\
+  By adding the running time of both all the calls we get, $2c_1n + c_2n$ which is $O(n)$.
+}
 \end{enumerate}
 
 \section{More Max-Weight Independent Sets}
