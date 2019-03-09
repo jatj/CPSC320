@@ -428,8 +428,8 @@ set). We can write MIS$^+(P,i)$ as:
 \soln{
 \[
    \mbox{MIS}^-(P,i) = \left \{\begin{array}{ll}
-                   0, & \mbox{if i<= 1} \\[.3in]
-                   \max \{ \mbox{MIS}^+(P,i-1) , \mbox{MIS}^+(P,i-2) \}, & \mbox{if i > 1} \\
+                   0, & \mbox{if } i \leq 1 \\[.3in]
+                   \max \{ \mbox{MIS}^+(P,i-1) , \mbox{MIS}^-(P,i-1) \}, & \mbox{if } i > 1 \\
                    \end{array} \right.
    \]
    }
@@ -529,5 +529,22 @@ n = 3n-2$ edges.
 can express MIS($G$) in terms of other quantities of your
 choosing that you can define, and then provide recurrences for these quantities.
 You do \emph{not} need to describe an algorithm to compute MIS($G$).
+\soln{
+\[
+  \mbox{MIS}(P) = \max{\mbox{MIS}^+(P,2,n) , \mbox{MIS}^+(P,2,n)}
+\]
+\[
+\mbox{MIS}^+(P,i,j) = \left \{\begin{array}{ll}
+                   0, & \mbox{if } j = 0 \\
+                   w(i,j) + \max \{ \mbox{MIS}^-(P,i,(j-1)), \mbox{MIS}^-(P,(i+1)\%2, j) \}, & \mbox{if } j \ge 1.
+                   \end{array} \right.
+\]
+\[
+\mbox{MIS}^-(P,i,j) = \left \{\begin{array}{ll}
+                0, & \mbox{if } j <= 1 \\[.3in]
+                \max \{ \mbox{MIS}^+(P,i,j-1), \mbox{MIS}^-(P,i,j-1) \}, & \mbox{if } j > 1 \\
+                \end{array} \right.
+\]
+}
 % Emacs 25.2.1 (Org mode 8.2.10)
 \end{document}

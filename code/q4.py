@@ -22,5 +22,5 @@ def MISminus(w, i, Soln):
 
     return Soln[i-1]
 
-w = [2,7,6,3,6]
+w = [2,8,6,3,6]
 print(MIS(w))
