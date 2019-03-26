@@ -1,0 +1,310 @@
+% Created 2019-03-19 Tue 09:20
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{algpseudocode}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{nth}
+\usepackage{tikz}
+\usetikzlibrary{positioning,chains,fit,shapes,shapes.misc,calc,arrows,patterns,decorations.pathreplacing}
+\usepackage{ccicons}
+\usepackage{calc}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{nopageno}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{braket}
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\setlength{\columnseprule}{1pt}
+\newcommand{\bonusmarksamt}[1]{\textbf{[#1~BONUS~marks]}}
+\newcommand{\bonusmarkamt}[0]{\textbf{[1~BONUS~mark]}}
+\newcommand{\marksamt}[1]{\textbf{[#1~marks]}}
+\newcommand{\markamt}[0]{\textbf{[1~mark]}}
+\newcommand{\fillinMC}[1]{\fillinMCmath{\mbox{#1}}}
+\newcommand{\fillinMCmath}[1]{\begin{tikzpicture}\draw circle [radius=0.5em];\end{tikzpicture}\ #1}
+\newcommand{\fillinMCsoln}[1]{\fillinMCmathsoln{\mbox{#1}}}
+\newcommand{\fillinMCmathsoln}[1]{\begin{tikzpicture}\draw[black, fill=blue] circle [radius=0.5em];\end{tikzpicture}\ #1}
+\newcommand{\fillinMCAll}[1]{\fillinMCAllmath{\mbox{#1}}}
+\newcommand{\fillinMCAllmath}[1]{\begin{tikzpicture}\draw (0,0) rectangle (1em,1em);\end{tikzpicture}\ #1}
+\newcommand{\fillinMCAllsoln}[1]{\fillinMCAllmathsoln{\mbox{#1}}}
+\newcommand{\fillinMCAllmathsoln}[1]{\begin{tikzpicture}\draw[black, fill=blue] (0,0) rectangle (1em,1em);\end{tikzpicture}\ #1}
+\newcommand{\fillinblank}[1]{\fillinblankmath{\mbox{#1}}}
+\newcommand{\fillinblankmath}[1]{\begingroup\setlength{\fboxsep}{1em}\setlength{\fboxrule}{2pt}\fbox{\LARGE\phantom{#1}}\endgroup}
+\newcommand{\fillinblanksoln}[1]{\fillinblankmathsoln{\mbox{#1}}}
+\newcommand{\fillinblankmathsoln}[1]{\begingroup\setlength{\fboxsep}{1em}\setlength{\fboxrule}{2pt}\fbox{{#1}}\endgroup}
+\newcommand{\answerbox}[1][3\baselineskip]{%
+\noindent\setlength{\fboxrule}{2pt}\framebox[0.7\linewidth]{%
+\raisebox{2pt}[0pt][#1]{}%
+}\par\medskip%
+}
+\usepackage{collcell,array}
+\newcommand{\shiftdown}[1]{\smash{\raisebox{-.5\normalbaselineskip}{#1}}}
+\newcolumntype{C}{>{\collectcell\shiftdown}c<{\endcollectcell}}
+\newcommand{\shiftup}[1]{\smash{\raisebox{.5\normalbaselineskip}{#1}}}
+%%% Adding Colour to Questions and Answers                                                            
+\usepackage{color}
+%Questions                                                                                            
+\def\question#1{\red{#1}}
+% Answers                                                                                             
+%Answer in short form                                                                                 
+\def\ans#1{\par\blu{Answer: #1}}%With header of Answer                                                
+\def\soln#1{\par\blu{#1}} %Without header of Answer                                                   
+% Colors                                                                                              
+\definecolor{blu}{rgb}{0,0,0.5}
+\def\blu#1{{\color{blu}#1}}
+\definecolor{gre}{rgb}{0,.3,0}
+\def\gre#1{{\color{gre}#1}}
+\definecolor{red}{rgb}{0.5,0.0,0}
+\def\red#1{{\color{red}#1}}
+\def\norm#1{\|#1\|}
+%%% End for Colours            
+\def\sequence#1#2{\dsequence{#1}{1}{#2}}
+\def\dsequence#1#2#3{#1_{#2}, \ldots, #1_{#3}}
+\newtheorem{fact}{Fact}
+\def\imax{$\texttt{S}_{\max}$}
+\def\iprevmax{previous\_$\texttt{S}_{\max}$}
+\def\deleted{\texttt{covered}}
+%\fancyhead{}\fancyfoot[C]{\tiny This work is licensed under a \href{http://creativecommons.org/licenses/by/4.0/}{Creative Commons Attribution 4.0 International License. \ccby}\\ For license purposes, the author is the University of British Columbia.}\pagestyle{fancyplain}
+\makeatletter
+\def\@myproof#1[#2]{\trivlist \item [\hskip\labelsep{\bf #1 {#2}: }]}
+\def\@begproof#1{\@ifnextchar[{\@myproof{#1}}{\@myproof{#1}[\unskip$\,$]}}
+\newenvironment{solution}{\vskip -10pt\leavevmode\@begproof{Solution}}{\endtrivlist}
+\def\sopt{S_{\textit{\scriptsize opt}}}
+\makeatother
+\fancyhead{}\fancyfoot[C]{\tiny This work is licensed under a \href{http://creativecommons.org/licenses/by-nc/4.0/}{Creative Commons Attribution-NonCommercial 4.0 International License. \ccbync}\\ For license purposes, the author is the University of British Columbia.}\pagestyle{fancyplain}
+\usepackage{mdframed}
+\BeforeBeginEnvironment{minted}{\begin{mdframed}}
+\AfterEndEnvironment{minted}{\end{mdframed}}
+\date{}
+\title{CPSC 320 2018W2: Assignment 5 (Last assignment!)}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.2.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+\vspace{-.7in}
+
+Please follow the guidelines given in Assignment 1 for submission to
+Gradescope, and for group collaboration. Remember to provide short
+justifications for your answers. Submit by the deadline \textbf{Monday 
+April 1, 2019 at 10PM}.
+
+Use \LaTeX to prepare your answers. Easiest will be to use the .tex
+file provided.  Please enclose each paragraph of your solution in
+\verb~\soln{Your solution here...}~.  \soln{Your solution will then appear
+in dark blue}, making it a lot easier for TAs to find the parts that
+you wrote.
+
+\section{Subset sums mod $n$}
+\label{sec-1}
+You've now seen examples of dynamic programming problems where the
+recurrence describes a number (e.g., the length of a longest common
+subsequence), and one example where the recurrence value is Boolean (true or false, indicating
+whether or not a there is a subset of a set items whose sum is a given value).
+Here you'll work with a problem where the recurrence describes a set.
+
+Let $S = \{x_1, x_2, \ldots, x_n\}$ be a set of nonnegative integers.
+We say that a value $v$, with $0 \le v \le n-1$, is \emph{feasible} with respect
+to $S$ if for some non-empty subset $R$ of $S$, 
+\[ 
+\sum_{x \in R} x = v \pmod n.  
+\]
+
+\begin{enumerate}
+\item For $1 \le i \le n$, let $V(i)$ be the set of feasible values that can
+be obtained from $\{x_1, x_2, \ldots, x_i\}$.
+\question{Explain why the following recurrence holds for $i \ge 1$, if we define
+$V(0) = \emptyset$ (the empty set):}
+ \[
+    V(i) = V(i-1) + \cup_{v \in V(i-1)} \{ v + x_i \pmod n \} \cup \{ x_i \pmod n \}.
+    \]
+
+\item \question{Design an algorithm that, given a set $S$ of $n$ nonnegative
+integers, determines whether 0 is feasible with respect to $S$.} The
+algorithm outpus "Yes" or "No".  Your algorithm should run in
+$O(n^2)$ time. Your pseudocode can use set options such as $\cup$ as
+in the recurrence above.
+
+\begin{tabbing}
+xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+\> {\bf Algorithm} Subset-Sum-mod-n($S = \{x_1,x_2,\ldots,x_n\}$) \\
+\>\> // Returns "Yes" if for some subset $R$ of $S$, $\sum_{x \in R} x = 0 \pmod n$   \\
+\>\> Create an array Soln$[0..n]$ \\
+\>\> // FILL IN THE REST OF THE CODE HERE
+\end{tabbing}
+
+\item Suppose that indeed there is a subset $R$ of $S$ such that $\sum_{x
+   \in R} x = 0 \pmod n$.  \question{Write an algorithm that finds such a subset
+$R$}.  You can assume that an array Soln$[0..n]$ has already been
+pre-computed, where Soln$[i]$ stores the set $V(i)$ defined in part 1,
+and your algorithm can use the array Soln. Your algorithm should
+run in time $O(n^2)$.
+\end{enumerate}
+
+\section{NP True or False}
+\label{sec-2}
+Let $X$ and $X'$ be decision problems, where both problems
+have "Yes" instances and "No" instances.
+\question{State whether you think each of the following statements must be true,
+must be false, or is an open question. Justify your answer.}
+
+
+\begin{enumerate}
+\item \textbf{Statement:}
+   If $X \le_p X'$ and $X$ is \emph{not} in NP, then $X'$ is not in NP.
+
+\item \textbf{Statement:}
+If $X \le_p X'$, $X$ is in P and $X'$ is in NP, then $X'$ must be
+in P.
+
+\item Let
+$\overline{X}$ be the \emph{complement} of problem $X$. That is,
+instance $I$ of $X$ is a No-instance of $\overline{X}$ if and only
+if $I$ is a Yes-instance of $X$. 
+For example, the problem $\overline{\mbox{SAT}}$
+is the set of \emph{unsatisfiable} 3-Sat Boolean formulas---formulas
+for which there is no satisfying truth assignment.
+Define $\overline{X'}$ similarly in terms of $X'$. The statement then is:
+
+\textbf{Statement:} If $X \le_p X'$ then $\overline{X} \le_p \overline{X}'$.
+\end{enumerate}
+
+\section{Common superstrings}
+\label{sec-3}
+A \emph{common superstring} of the strings $s_1, s_2, \ldots, s_n$ is a
+string $T$ such that each $s_i$ is a substring of $T, 1 \le i \le
+n$. (Note that the letters of the substring must appear consecutively in
+$T$, unlike our definition of a subsequence.) For example, if the
+strings are $s_1 = 101, s_2 = 0111$, and $s_3 = 010$ then the strings
+010111 and 0111010 are both common superstrings of $s_1, s_2$, and
+$s_3$.  
+
+An instance of the \emph{Shortest Common Superstring} problem is a set of
+strings $\{s_1, s_2, \ldots, s_n\}$ and a number $K$.
+The problem is to determine whether there is a
+common superstring of $s_1, s_2, \ldots, s_n$ that has length at most
+$k$.  Assume that none of the strings $s_i$ is a substring of another
+string $s_j$ (otherwise $s_i$ can be removed from the list of strings
+without changing the length of the shortest common superstring). This
+problem has been important in the context of developing algorithms for
+genome sequence assembly.
+
+An instance of the \emph{Traveling Salesperson Problem} (TSP) is a set $\{
+C_1, C_2, \ldots, C_n \}$ of cities, nonnegative integer costs
+$c_{ij}$ of traveling from city $C_i$ to city $C_j$ (or from $C_j$ to
+$C_i$; the cost is the same either way), and a number $K$.  The
+problem is to determine whether there is a tour of the cities of cost
+at most $K$.  A \emph{tour} is a path that starts at some city, say $C_1$,
+travels through every other city exactly once, and returns to the
+starting city $C_1$. The tour cannot go through a city more than once
+(except for $C_1$ which appears both at the start and at the end of
+the tour).
+
+\begin{enumerate}
+\item \question{Describe a polynomial time reduction from the Shortest Common
+Superstring problem to the traveling salesperson problem (TSP).}
+
+\item \question{Is the Shortest Common Superstring problem in NP? Justify your answer.}
+
+\item \question{Does the reduction of part 1, plus your answer to part 2, imply
+that the Shortest Common Superstring problem is NP-complete?  Why
+or why not?}
+\end{enumerate}
+
+\section{Maximum Cuts (from Coulter Beeson)}
+\label{sec-4}
+In this problem you'll define and show that the MaxCut problem is
+NP-complete, using a reduction from a known NP-Complete problem,
+Partition.  We'll first define Partition, which is already familiar to you, 
+and then move on to MaxCut.
+
+\textbf{Partition} is another name for the decision problem we saw in class,
+where thieves try to evenly share their loot. An instance of this
+problem is a set $I = \{v_1, v_2 ... v_n\}$ of values for $n$ items.
+$I$ is a Yes-instance if the items can be fairly split, that is, if we
+can partition the set $[1..n]$ into two nonempty subsets $S$ and
+$\overline{S}$ such that $\sum_{i\in S}v_i = \sum_{j \in \overline{S}}
+v_j$.
+
+A \textbf{cut} in an undirected graph $G=([1..n],E)$ divides the set of nodes $[1..n]$ into
+two non-empty disjoint subsets. That is, a cut is a pair $(S,
+\overline{S})$ where $\overline{S} = V-S$
+and $0 < |S| < n$. If weight $w(i,j)$ is associated with each edge $(i,j)$ of the graph,
+then the weight of the cut $(S,\overline{S})$ is the sum of
+the weights of edges that cross the cut. That is,
+\[
+w(S,\overline{S}) = \sum_{i \in S, j \in \overline{S}} w(i,j).
+\]
+We would like to show that there is there is unlikely to be an
+efficient algorithm that takes as input a graph $G$ and weight
+function $w$, and finds a cut of maximum weight. However
+NP-Completeness is only defined for decision problems.
+
+\begin{enumerate}
+\item \question{Write down a decision version of the problem, which
+we'll call MaxCut. What is an instance $I$ of MaxCut? Which are the
+Yes-instances of MaxCut?}
+
+\item \question{Show that $\text{MaxCut} \in \text{NP}$.}
+
+\item Here you'll reason about a useful building block for a reduction
+from Partition to MaxCut.
+Let $I = \{v_1,v_2,\ldots,v_n\}$ be an instance of Partition, with
+$\sum_{i=1}^n v_i = 2V$.  From $I$ we'll build a graph $G =
+   ([1..n], E)$ where $E$ has an undirected edge between every pair of
+nodes $(i,j)$, with weight $w(i,j) = v_i v_j$.
+\question{Show that if $(S, \overline{S})$ is a partition of $[1..n]$ such that
+$\sum_{i\in S} v_i = V$, then in $G$, the weight of the cut $(S,S')$
+is $V^2$.}
+
+\item \question{Show that if $(S, \overline{S})$ is a partition of $[1..n]$ such that
+$\sum_{i\in S} v_i \neq V$, then in the graph $G$ of part 3, the weight of the cut $(S,\overline{S})$
+is less than $V^2$.}
+\emph{Hint:} use the fact that if $x + y = 2V$ then $x y$ attains its unique maximum
+when $x = y = V$.
+
+\item \question{Describe an efficient reduction that maps instances $I$ of Partition to instances $I'$ 
+of MaxCut.}
+You can describe your reduction in words or implement it in pseudocode.
+
+\item \question{Explain why your reduction runs in polynomial time.}
+
+\item \question{Show that if $I$ is a Yes-instance of Partition then $I'$ is a
+Yes-Instance of MaxCut.} (Part 3 should be useful here, as well as
+your definition of part 1.)
+
+\item \question{Show that if $I'$ is a Yes-instance of MaxCut then $I$ is a Yes-Instance of Partition.}
+(Part 4 should be useful here.)
+
+\item In class we saw a dynamic programming algorithm for the Partition
+problem, with running time $\Theta(nV)$, where $2V = \sum_{i=1}^n v_i$.
+\question{Why does this not imply that $\text{P}=\text{NP}$?} (Think what is
+the size of a Partition instance; is the running time of the dynamic
+programming algorithm polynomial or exponential in the input size?)
+
+\item \textbf{Bonus} \question{Prove the hint given in part 4.}
+\end{enumerate}
+\end{document}
