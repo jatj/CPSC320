@@ -141,21 +141,40 @@ $V(0) = \emptyset$ (the empty set):}
  \[
     V(i) = V(i-1) + \cup_{v \in V(i-1)} \{ v + x_i \pmod n \} \cup \{ x_i \pmod n \}.
     \]
-
+\soln{
+   We can see this recurrence in three parts, the first part $V(i-1)$ ensure that $V(i)$ contains
+   the $v_{\text{s}}$ for all subsets of the previous set $\{x_1, x_2 ... x_{i-1}\}$. \\ \\
+   With $\cup_{v \in V(i-1)} \{ v + x_i \pmod n \}$ we are addding all the $v_{\text{s}}$ for all the 
+   combinations of the previous subsets in $V(i-1)$ with our new value $x_i$, since we only care 
+   about the $\pmod n$ of the sum of each subset, we dont need to re calculate the sum over each 
+   subset to include $x_i$ we just need the corresponding $v$ of each subset then if we add $x_i$ to 
+   it and compute $\pmod n$ it would yield the same result without having to sum over the subset $R$, 
+   with this recurrence we are progressively adding to the subsets our new values $x_i$ on each iteration. \\ \\
+   Lastly we are missing one subset, we have all the subsets that not include $x_i$ from the 
+   first part, and all the subsets that include $x_i$ and one or more $x_j$ in $S$ with $j < i$. 
+   But we have not considered the subset $R = \{x_i\}$ and that is what the last part of the 
+   recurrence do, $\{ x_i \pmod n \}$, the sum of that set is just $x_i$ so we have include 
+   $x_i \pmod n$ into our set $V(i)$. \\
+}
 \item \question{Design an algorithm that, given a set $S$ of $n$ nonnegative
 integers, determines whether 0 is feasible with respect to $S$.} The
 algorithm outpus "Yes" or "No".  Your algorithm should run in
 $O(n^2)$ time. Your pseudocode can use set options such as $\cup$ as
 in the recurrence above.
-
+\soln{
 \begin{tabbing}
 xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
 \> {\bf Algorithm} Subset-Sum-mod-n($S = \{x_1,x_2,\ldots,x_n\}$) \\
 \>\> // Returns "Yes" if for some subset $R$ of $S$, $\sum_{x \in R} x = 0 \pmod n$   \\
 \>\> Create an array Soln$[0..n]$ \\
-\>\> // FILL IN THE REST OF THE CODE HERE
+\>\> Set Soln$[0] = \emptyset$ \\
+\>\> for $i = 1$ to $n$: \\
+\>\>\> Soln$[i]$ = \{S$[i] \mod n$\} \\
+\>\>\> for $j = 1$ to $|$Soln$[i-1]|$: \\
+\>\>\>\> $v$ = Soln$[i-1][j]$ \\
+\>\>\>\> Soln$[i]$ = Soln$[i]$ $\cup$ $\{v, v+s[i] \pmod n\}$ \\
 \end{tabbing}
-
+}
 \item Suppose that indeed there is a subset $R$ of $S$ such that $\sum_{x
    \in R} x = 0 \pmod n$.  \question{Write an algorithm that finds such a subset
 $R$}.  You can assume that an array Soln$[0..n]$ has already been
@@ -163,6 +182,7 @@ pre-computed, where Soln$[i]$ stores the set $V(i)$ defined in part 1,
 and your algorithm can use the array Soln. Your algorithm should
 run in time $O(n^2)$.
 \end{enumerate}
+% JATJ: Complete
 
 \section{NP True or False}
 \label{sec-2}
@@ -175,10 +195,24 @@ must be false, or is an open question. Justify your answer.}
 \begin{enumerate}
 \item \textbf{Statement:}
    If $X \le_p X'$ and $X$ is \emph{not} in NP, then $X'$ is not in NP.
-
+\soln{
+   True, if $X'$ is at least as hard as $X$ which is not in NP and also not in P, then it must be that 
+   $X'$ has no solution neither in P nor NP. If it was the case that there was a solution for 
+   $X'$ that could be checked in polynomial then $X$ would also have a solution that could be checked 
+   in polynomial time, but it is not the case since we know that $X$ is not in NP. Hence there is no 
+   way to check a solution for $X'$ on polynomial time, therefore $X'$ is not in NP.
+   % Open question, we can't confirm that $X'$ is not in NP by just proving that $X'$ which is not in NP is 
+   % at least as hard as $X$. This can be clearer if we assign some problem to $X$, like checking if an 
+   % array contain a provided element, this would be a linear problem. Knowing that $X'$ is at least as 
+   % hard as finding an element in an array, don't provide us with more information about $X'$ it could 
+   % easily be infinitely more difficult than P but we don't know.
+}
 \item \textbf{Statement:}
-If $X \le_p X'$, $X$ is in P and $X'$ is in NP, then $X'$ must be
-in P.
+If $X \le_p X'$, $X$ is in P and $X'$ is in NP, then $X'$ must be in P.
+\soln{
+   Open question, if I can confirm or deny this, then I would win \$1 million US. By proving this 
+   we would prove that P = NP.
+}
 
 \item Let
 $\overline{X}$ be the \emph{complement} of problem $X$. That is,
@@ -190,6 +224,12 @@ for which there is no satisfying truth assignment.
 Define $\overline{X'}$ similarly in terms of $X'$. The statement then is:
 
 \textbf{Statement:} If $X \le_p X'$ then $\overline{X} \le_p \overline{X}'$.
+\soln{
+   False, even if we know that $X \le_p X'$ we can't confirm that proving a not instance is reducible 
+   in the same way. So even though $\overline{X}$  has the same context as $X$ they can have complexities, 
+   sometimes proving things are no-instances is faster than proving solutions are a yes-instances and 
+   vice versa.
+}
 \end{enumerate}
 
 \section{Common superstrings}
