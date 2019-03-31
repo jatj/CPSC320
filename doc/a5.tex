@@ -266,12 +266,39 @@ the tour).
 \begin{enumerate}
 \item \question{Describe a polynomial time reduction from the Shortest Common
 Superstring problem to the traveling salesperson problem (TSP).}
+\soln{
+   We can set every string $s_i$ to be a "city" $c_i$, $1 \le i \le n$.
+   Then we create a $n$ $c_{ij}$ costs, each of this costs will be 
+   the minimum number of characters needed to create a super string 
+   of the strings $\{s_i, s_j\}$, i.e. for the $s_i = 010$, $s_i = 0111$ 
+   the cost $c_{ij}$ would be 2, because we can use the 0 on both on the 
+   left side of the $s_j$ and just add the 2 remaining characters $01$ on 
+   $s_i$. \\ \\
+   We can create the each city $c_i$ in linear time, just by iterating 
+   over the strings. After the creation of our costs, would take us $n^2$
+   time because we need to calculate a $n-1$ costs for each string $s_i$.
+}
 
 \item \question{Is the Shortest Common Superstring problem in NP? Justify your answer.}
+\soln{
+   Yes, we reduced Shortest Common Superstring in polynomial time to 
+   Traveling Salesperson Problem, and we know tha TSP can be verified 
+   in polynomial time. Which means that we can verify SCS in polynomial time 
+   by using TSP. Therefore SCS is in NP.
+}
 
 \item \question{Does the reduction of part 1, plus your answer to part 2, imply
 that the Shortest Common Superstring problem is NP-complete?  Why
 or why not?}
+\soln{
+   No, even we know for our answer in part 2 that SCS is in NP, we don't 
+   have enough facts to prove that SCS is in NP-Complete. What we have 
+   proved is that TSP is at least as hard as SCS, but to prove that 
+   SCS we need to prove that SCS is at least as hard as any NP-Complete 
+   problem, we could achieve this by reversing the direction of the reduction 
+   reducing TSP to SCS, then we will know that SCS is at least as hard as TSP 
+   which is an NP-Complete problem, hence SCS must be an NP-Complete.
+}
 \end{enumerate}
 
 \section{Maximum Cuts (from Coulter Beeson)}
