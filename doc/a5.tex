@@ -342,9 +342,15 @@ Yes-instances of MaxCut?}
 
 \item \question{Show that $\text{MaxCut} \in \text{NP}$.}
 \soln{
-   Given a solution for a yes-instance $I$ for MaxCut, we can verify that is truthly a yes-instance 
-   by calculating a sufficiently large cut, we calculate this by adding the weights for all the edges 
-   in $G$ until we get a sufficiently weighted cut that is $\geq k$.
+   Given a certificate $C$ which is a set of edges in the MaxCut for a yes-instance $I$, 
+   we can verify that is truthly a yes-instance by: 
+   \begin{enumerate}
+      \item Verifying that every edge $(i,j)$ in $C$ is in MaxCut, and there are no duplicates on $C$
+      \item Sum each $w(i,j)$ for every edge $(i,j)$ in $C$. If this sum is at least $k$ then 
+      $I$ is truthly a yes-instance
+   \end{enumerate}
+   This can be done in polynomial time, because the edges in $C$ are upper bounded by $n^2$, because 
+   there can't be duplicates on $C$. Hence MaxCut is in NP.
 }
 
 \item Here you'll reason about a useful building block for a reduction
