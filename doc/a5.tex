@@ -282,9 +282,9 @@ Superstring problem to the traveling salesperson problem (TSP).}
 \item \question{Is the Shortest Common Superstring problem in NP? Justify your answer.}
 \soln{
    Yes, we reduced Shortest Common Superstring in polynomial time to 
-   Traveling Salesperson Problem, and we know tha TSP can be verified 
+   Traveling Salesperson Problem, and we know that TSP can be verified 
    in polynomial time. Which means that we can verify SCS in polynomial time 
-   by using TSP. Therefore SCS is in NP.
+   by using TSP to verify it. Therefore SCS is in NP.
 }
 
 \item \question{Does the reduction of part 1, plus your answer to part 2, imply
@@ -334,8 +334,18 @@ NP-Completeness is only defined for decision problems.
 \item \question{Write down a decision version of the problem, which
 we'll call MaxCut. What is an instance $I$ of MaxCut? Which are the
 Yes-instances of MaxCut?}
+\soln{
+   The decision would be, is there a cut with a weight of at least $k$. Then an instance $I$ 
+   would be the graph $G=([1..n],E)$, a set of weights $W$ for each edge in $G$, and a $k$ 
+   that would represent the boundary to determine if $I$ is a yes-instance or a no-instance.
+}
 
 \item \question{Show that $\text{MaxCut} \in \text{NP}$.}
+\soln{
+   Given a solution for a yes-instance $I$ for MaxCut, we can verify that is truthly a yes-instance 
+   by calculating a sufficiently large cut, we calculate this by adding the weights for all the edges 
+   in $G$ until we get a sufficiently weighted cut that is $\geq k$.
+}
 
 \item Here you'll reason about a useful building block for a reduction
 from Partition to MaxCut.
@@ -346,32 +356,113 @@ nodes $(i,j)$, with weight $w(i,j) = v_i v_j$.
 \question{Show that if $(S, \overline{S})$ is a partition of $[1..n]$ such that
 $\sum_{i\in S} v_i = V$, then in $G$, the weight of the cut $(S,S')$
 is $V^2$.}
+\soln{
+   Consider an $I$ with $n=4$ with elements $\{v_1, v_2, v_3, v_4 \}$, arbitrary assuming that a subset $S$ has 
+   the elements $\{ v_1, v_2 \}$, therefore $\overline{S} = \{ v_3, v_4\}$. Since we are setting the 
+   weights $w(i,j)$ to be a multiplication between $v_i$ and $v_j$ on $G$, we will have that the sum of 
+   the weights in the cut is, $v_1v_3 + v_1v_4 + v_2v_3 + v_2v_4$, we can think about this as a 
+   distribution of two factors, the sets $S, \overline{S}$. So we end up with $(v_1+v_2) * (v_3+v_4)$, which 
+   still is equivalent to the weight of the cut. \\ \\
+   But we can go further with this, we know that $v_1+v_2 = \sum_{i \in S}^n v_i$ and
+   $v_3+v_4 = \sum_{i \in \overline{S}}^n v_i$, so we can reduce the weight of the cut to 
+   $(\sum_{i \in S}^n v_i) * (\sum_{i \in \overline{S}}^n v_i)$, furthermore we are given that 
+   $\sum_{i\in S} v_i = V$ which yields, weight of cut = $V * (\sum_{i \in \overline{S}}^n v_i)$. Lastly 
+   we know that the sum of all elements in $I$ add up to $2V$, since $\overline{S}$ is the complement 
+   of $S$, $2V = V + \sum_{i \in \overline{S}}^n v_i$, therefore $ \sum_{i \in \overline{S}}^n v_i = V$
+   which give us the weight of the cut $ = V*V = V^2$.
+}
 
 \item \question{Show that if $(S, \overline{S})$ is a partition of $[1..n]$ such that
 $\sum_{i\in S} v_i \neq V$, then in the graph $G$ of part 3, the weight of the cut $(S,\overline{S})$
 is less than $V^2$.}
 \emph{Hint:} use the fact that if $x + y = 2V$ then $x y$ attains its unique maximum
 when $x = y = V$.
+\soln{
+   Lets consider a similar scenario like the above one, $S = \{ v_1, v_2 \}$ and $\overline{S} = \{ v_3, v_4\}$.
+   Now we are given that $\sum_{i\in S} v_i \neq V$, so lets pick an arbitrary number $c$, $c>0$ to be the 
+   difference between $\sum_{i\in S} v_i$ and $V$, so we have $\sum_{i\in S} v_i = V - c$ and 
+   $\sum_{i\in \overline{S}} v_i = V + c$ because the difference must be added to the complement for 
+   consistency. \\ \\
+   Given these expressions we can follow the procedure of the previous question to arrive to the 
+   conclusion that the weight of the cut $= (V-c)*(V+c)$, given that the $I$ has $\sum_{i=1}^n v_i = 2V$ 
+   and the fact that if $x + y = 2V$, the unique maximum is when $x = y = V$. Then the weight of the 
+   cut  $(V-c)*(V+c) < V^2$. Because $(V-c) \neq (V+c) \neq V$ for $c > 0$, which has to be greater 
+   than 0 to meet the initial assumtion $\sum_{i\in S} v_i \neq V$.
+}
 
 \item \question{Describe an efficient reduction that maps instances $I$ of Partition to instances $I'$ 
 of MaxCut.}
 You can describe your reduction in words or implement it in pseudocode.
+\soln{
+   To reduce Partition to MaxCut, we can create a graph $G$ containing a node $a_i$ for each element in the Partition set 
+   $\{v_1,v_2,...v_n\}$, $1 \leq i \leq n$. Then create an edge between all $a_i$ and $a_j$ nodes 
+   and set $w(i,j) = v_i v_j$, $1 \leq i \leq n$, $1 \leq j \leq n$, $i \neq j$. Lastly set 
+   $k = ( \frac{1}{2} \sum_{i=1}^n v_i)^2$.
+}
 
 \item \question{Explain why your reduction runs in polynomial time.}
+\soln{
+   This reduction takes linear time to create the nodes, quadratic time for creating 
+   the edges and weights between every $x_i$ and $x_j$, and again linear time to calculate $k$. 
+   The total running time is $n^2$ which is polynomial time. 
+}
 
 \item \question{Show that if $I$ is a Yes-instance of Partition then $I'$ is a
 Yes-Instance of MaxCut.} (Part 3 should be useful here, as well as
 your definition of part 1.)
+\soln{
+   If $I$ is a yes-instance then the sum of each $v_i$ in $I$ will be divisible by 2, because we need 
+   to separate $I$ in two equal parts to be a yes-instance, this implies that $\sum_{i}^n v_i = 2V$ 
+   hence  $\sum_{i\in S} v_i = \sum_{i\in \overline{S}} v_i = V$. \\ \\
+   From part 3 we know that if the sum of the subset $S$ equal $V$ then the weight of the maximum 
+   cut would be $V^2$, so now we just need to compare $k$ and $V^2$, so we have the following 
+   comparison $V^2 = ( \frac{1}{2} \sum_{i=1}^n v_i)^2$, which if we replace the sum of every $v_i$ in $I$
+   with $2V$ yields $V^2 = ( \frac{1}{2} (2V))^2 \rightarrow V^2 = (V)^2$, which is true. Therefore 
+   $I'$ is also a yes-instance.
+}
 
 \item \question{Show that if $I'$ is a Yes-instance of MaxCut then $I$ is a Yes-Instance of Partition.}
 (Part 4 should be useful here.)
+\soln{
+   If $I'$ is a yes-instance then the weight of the max cut $ = ( \frac{1}{2} \sum_{i=1}^n v_i)^2$, 
+   which can also be represented as MaxCut $ = V^2$. We know from part 4 that there is no subset 
+   that for any subset $S$ that add up to some number different than $V$, the weight of MaxCut would 
+   be strictly less than $V^2$. But in this case we know that it is $ = V^2$, therefore $I$ must 
+   also be a yes-instance.
+}
 
 \item In class we saw a dynamic programming algorithm for the Partition
 problem, with running time $\Theta(nV)$, where $2V = \sum_{i=1}^n v_i$.
 \question{Why does this not imply that $\text{P}=\text{NP}$?} (Think what is
 the size of a Partition instance; is the running time of the dynamic
 programming algorithm polynomial or exponential in the input size?)
+\soln{
+   This do not imply that P = NP, the running time of that algorithm grows not only with the size of 
+   the input, but with the size of the data in the input. So we can have an instance $I$ with $n=5$ 
+   and another $\hat{I}$ with $n=5$, but they would have different running times based on the value 
+   of $V_I$ and $V_{\hat{I}}$.
+}
 
 \item \textbf{Bonus} \question{Prove the hint given in part 4.}
+\soln{
+   To prove that $xy$ reach their unique maximum if $x+y=2V$ when $x=y=V$. Consider the following 
+   expression to prove, $(x-c)(y+c) < xy$ for some $c \neq 0$, $c < V$, if we distribute that expression 
+   we get: 
+   \begin{center}
+      \[(x-c)(y+c) < xy\]
+      \[xy + xc - yc - c^2 < xy\]
+      \[xc - yc - c^2 < 0\]
+      \[x - y - c < 0\]
+      \[x - c < y\]
+      By considering $x+y=2V$
+      \[x - c < 2V -x\]
+      \[2x - c < 2V \]
+      We know for $x+y=2V$, that $x$ is at most $2V$, so by replacing it
+      \[2V - c < 2V \]
+      Which yields true, due to our constraints on $c$, $c \neq 0$, $c < V$. Therefore, our initial 
+      clause $(x-c)(y+c) < xy$ is also true. Hence $xy$ reach the maximum when $x = y = V$, when 
+      $c=0$.
+   \end{center}
+}
 \end{enumerate}
 \end{document}
