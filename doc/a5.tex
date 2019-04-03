@@ -172,7 +172,11 @@ xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
 \>\>\> Soln$[i]$ = \{S$[i] \mod n$\} \\
 \>\>\> for $j = 1$ to $|$Soln$[i-1]|$: \\
 \>\>\>\> $v$ = Soln$[i-1][j]$ \\
-\>\>\>\> Soln$[i]$ = Soln$[i]$ $\cup$ $\{v, v+s[i] \pmod n\}$ \\
+\>\>\>\> Soln$[i]$ = Soln$[i]$ $\cup$ $\{v, v+s[i] \pmod n\}$ \\ \\
+\>\> for $i = 1$ to $|$Soln$[n]|$: \\
+\>\>\> if Soln$[n][i]$ == 0: \\
+\>\>\>\> return Yes \\
+\>\> return No \\
 \end{tabbing}
 }
 \item Suppose that indeed there is a subset $R$ of $S$ such that $\sum_{x
@@ -182,7 +186,33 @@ pre-computed, where Soln$[i]$ stores the set $V(i)$ defined in part 1,
 and your algorithm can use the array Soln. Your algorithm should
 run in time $O(n^2)$.
 \end{enumerate}
-% JATJ: Complete
+\soln{
+\begin{tabbing}
+xxxxxxx\=xxx\=xxx\=xxx\=xxx\=xxxx\= \kill
+\> {\bf Algorithm} Subset-Sum-mod-n-subset($S = \{x_1,x_2,\ldots,x_n\}$, Soln) \\
+\>\> // Returns subset $R$ of $S$, $\sum_{x \in R} x = 0 \pmod n$ using Soln  \\
+\>\> Create an array $R$ \\
+\>\> Let k = -1 \\
+\>\> Let sum = 0 \\
+\>\> // Find the $i$ when the first $v = 0$ was found \\
+\>\> for $i = 1$ to $n$: \\
+\>\>\> for $j = 1$ to $|$Soln$[i]|$: \\
+\>\>\>\> if Soln$[i][j]$ == 0: \\
+\>\>\>\>\> k = j \\
+\>\>\>\>\> sum = $S[j]$ \\
+\>\>\>\>\> Add $S[j]$ to $R$ \\
+\>\>\> if k != -1: \\
+\>\>\>\> $i = n$ \\
+\>\> // Track the subset that sums to 0 \\
+\>\> for $i = k - 1$ to $1$ \\
+\>\>\> for $j = 1$ to $|$Soln$[i]|$: \\
+\>\>\>\> if (sum + Soln$[i][j]$) \% $n$ == 0: \\
+\>\>\>\>\> sum = sum + $S[i]$ \\
+\>\>\>\>\> if sum \% $n$ == 0: \\
+\>\>\>\>\>\> return $R$ \\
+\>\>\>\>\> else $j$ = $|$Soln$[i]|$ \\
+\end{tabbing}
+}
 
 \section{NP True or False}
 \label{sec-2}
